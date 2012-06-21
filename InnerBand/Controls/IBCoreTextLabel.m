@@ -10,6 +10,7 @@
 #import <CoreText/CoreText.h>
 #import "Macros.h"
 #import "Functions.h"
+#import "UIColor+InnerBand.h"
 
 @interface IBCoreTextLabel (PRIVATE)
 
@@ -195,10 +196,15 @@
 	NSInteger scanIndex = -1;
 	NSInteger medicalLoss = 0;
 	
-	while ([scanner scanUpToString:@"<" intoString:&scanStr]) {
-		scanIndex = [scanner scanLocation];
-		[scannedStr appendString:scanStr];
-		
+	while ([scanner  scanUpToString:@"<" intoString:&scanStr] || [scanner scanString:@"<" intoString:nil]) {
+        if (IS_EMPTY_STRING(scanStr)) {
+            scanner.scanLocation = scanner.scanLocation - 1;
+        } else {
+            [scannedStr appendString:scanStr];            
+        }
+
+        scanIndex = [scanner scanLocation];
+
 		if ([scanner scanString:@"<b>" intoString:nil]) {
 			// bold
 			[scanner scanUpToString:@"</b>" intoString:&scanStr];
@@ -270,8 +276,41 @@
     
 	for (NSInteger i=0; i < _fontRanges.count; i += 2) {
 		NSValue *iValue = (NSValue *)[_fontRanges objectAtIndex:i];
-		NSString *iFontName = (NSString *)[_fontRanges objectAtIndex:i+1];
+		NSString *iFontPieces = (NSString *)[_fontRanges objectAtIndex:i+1];
+        NSString *iFontName = font.fontName;
+        NSInteger iFontSize = font.pointSize;
+
+        NSArray *pieces = [iFontPieces componentsSeparatedByString:@","];
         
+        if (pieces.count > 0) {
+            iFontName = [pieces objectAtIndex:0];
+            
+            if (IS_EMPTY_STRING(iFontName)) {
+                if (font) {
+                    iFontName = font.fontName;    
+                } else {
+                    iFontName = @"Helvetica";
+                }
+            }
+        }
+        
+        if (pieces.count > 1) {
+            NSString *strFontSize = [pieces objectAtIndex:1];
+            
+            if (!IS_EMPTY_STRING(strFontSize)) {
+                iFontSize = [strFontSize intValue];
+            }
+        }
+
+        if (pieces.count > 2) {
+            NSString *strFontColor = [pieces objectAtIndex:2];
+            
+            if (!IS_EMPTY_STRING(strFontColor)) {
+                UIColor *iFontColor = [UIColor colorWithHexString:strFontColor];
+                [attrString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)iFontColor.CGColor range:iValue.rangeValue];
+            }
+        }
+
 		CTFontRef iFont = CTFontCreateWithName((__bridge CFStringRef)iFontName, font.pointSize, nil);
 		[attrString addAttribute:(NSString *)(kCTFontAttributeName) value:(__bridge id)iFont range:iValue.rangeValue];
         CFRelease(iFont);
