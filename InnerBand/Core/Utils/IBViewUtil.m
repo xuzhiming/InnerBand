@@ -1,5 +1,5 @@
 //
-//  MessageProcessor.h
+//  IBViewUtil.m
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,16 +17,21 @@
 //  limitations under the License.
 //
 
-#import <Foundation/Foundation.h>
+#import "IBViewUtil.h"
 
-@class DispatchMessage;
 
-@interface MessageProcessor : NSObject {
-	DispatchMessage *_message;
-	NSArray *_targetActions;
+@implementation IBViewUtil
+
++ (id) loadInstanceOfView:(Class)clazz fromNibNamed:(NSString *)name {
+	id obj = nil;
+	NSArray *topObjects = [[NSBundle mainBundle] loadNibNamed:name owner:nil options:nil];
+	for (id currentObject in topObjects) {
+		if ([currentObject isKindOfClass:clazz]) {
+			obj = currentObject;
+			break;
+		}
+	}
+	return obj;
 }
-
-- (id)initWithMessage:(DispatchMessage *)message targetActions:(NSArray *)targetActions;
-- (void)process;
 
 @end

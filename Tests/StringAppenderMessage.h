@@ -18,9 +18,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DispatchMessage.h"
+#import "IBDispatchMessage.h"
 
-@interface StringAppenderMessage : DispatchMessage {
+@interface StringAppenderMessage : IBDispatchMessage {
 	NSString *_stringToAppend;
 	NSMutableString *_convertedString;
 }

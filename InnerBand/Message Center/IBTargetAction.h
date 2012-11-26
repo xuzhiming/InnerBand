@@ -1,5 +1,5 @@
 //
-//  TargetAction.h
+//  IBTargetAction.h
 //  InnerBand
 //
 //  Created by John Blanco on 3/23/12.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TargetAction : NSObject
+@interface IBTargetAction : NSObject
 
 @property (nonatomic, assign) NSObject *target;
 @property (nonatomic, copy) NSString *action;

@@ -1,5 +1,5 @@
 //
-//  MessageProcessor.m
+//  IBMessageProcessor.m
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,28 +17,21 @@
 //  limitations under the License.
 //
 
-#import "MessageProcessor.h"
-#import "DispatchMessage.h"
-#import "ARCMacros.h"
-#import "TargetAction.h"
+#import "IBMessageProcessor.h"
+#import "IBDispatchMessage.h"
+#import "IBTargetAction.h"
 
-@implementation MessageProcessor
+@implementation IBMessageProcessor
 
-- (id)initWithMessage:(DispatchMessage *)message targetActions:(NSArray *)targetActions {
+- (id)initWithMessage:(IBDispatchMessage *)message targetActions:(NSArray *)targetActions {
 	self = [super init];
 	
 	if (self) {
-        _message = SAFE_ARC_RETAIN(message);
+        _message = message;
 		_targetActions = [targetActions copy];
 	}
 	
 	return self;
-}
-
-- (void)dealloc {
-    SAFE_ARC_RELEASE(_message);
-    SAFE_ARC_RELEASE(_targetActions);
-    SAFE_ARC_SUPER_DEALLOC();
 }
 
 - (void)process {
@@ -47,7 +40,7 @@
 	
 	// dispatch for all target/action pairs
 	for (NSInteger i = _targetActions.count - 1; i >= 0; --i) {
-        TargetAction *targetAction = (TargetAction *)[_targetActions objectAtIndex:i];
+        IBTargetAction *targetAction = (IBTargetAction *)[_targetActions objectAtIndex:i];
 		NSObject *iTarget = targetAction.target;
 		SEL iAction = NSSelectorFromString(targetAction.action);
 		
@@ -55,14 +48,10 @@
 		if (_message.isAsynchronous) {
 			[iTarget performSelectorOnMainThread:iAction withObject:_message waitUntilDone:NO];
 		} else {
-            #if __has_feature(objc_arc)
-                #pragma clang diagnostic push
-                #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-                            [iTarget performSelector:iAction withObject:_message];
-                #pragma clang diagnostic pop						
-            #else
-                [iTarget performSelector:iAction withObject:_message];
-            #endif
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                        [iTarget performSelector:iAction withObject:_message];
+            #pragma clang diagnostic pop						
 		}
 	}
 }

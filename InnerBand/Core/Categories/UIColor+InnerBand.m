@@ -18,8 +18,8 @@
 //
 
 #import "UIColor+InnerBand.h"
-#import "Macros.h"
-#import "Functions.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 
 // constants
 const NSInteger MAX_RGB_COLOR_VALUE = 0xff;
@@ -28,11 +28,11 @@ const NSInteger MAX_RGB_COLOR_VALUE_FLOAT = 255.0f;
 @implementation UIColor (InnerBand)
 
 + (UIColor *)colorWith256Red:(NSInteger)r green:(NSInteger)g blue:(NSInteger)b {
-	return [UIColor colorWithRed:RGB256_TO_COL(r) green:RGB256_TO_COL(g) blue:RGB256_TO_COL(b) alpha:1.0];
+	return [UIColor colorWithRed:IB_RGB256_TO_COL(r) green:IB_RGB256_TO_COL(g) blue:IB_RGB256_TO_COL(b) alpha:1.0];
 }
 
 + (UIColor *)colorWith256Red:(NSInteger)r green:(NSInteger)g blue:(NSInteger)b alpha:(NSInteger)a {
-	return [UIColor colorWithRed:RGB256_TO_COL(r) green:RGB256_TO_COL(g) blue:RGB256_TO_COL(b) alpha:RGB256_TO_COL(a)];
+	return [UIColor colorWithRed:IB_RGB256_TO_COL(r) green:IB_RGB256_TO_COL(g) blue:IB_RGB256_TO_COL(b) alpha:IB_RGB256_TO_COL(a)];
 }
 			
 + (UIColor *) colorWithRGBA:(uint) hex {

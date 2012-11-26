@@ -18,7 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "MessageCenter.h"
+#import "IBMessageCenter.h"
 #import "HTTPGetRequestMessage.h"
 #import "Widget.h"
 
@@ -39,12 +39,12 @@
 
 - (void)setUpClass {
     // Run at start of all tests in the class
-	[MessageCenter setDebuggingEnabled:YES];
+	[IBMessageCenter setDebuggingEnabled:YES];
 }
 
 - (void)tearDownClass {
     // Run at end of all tests in the class
-	[MessageCenter setDebuggingEnabled:NO];
+	[IBMessageCenter setDebuggingEnabled:NO];
 }
 
 - (void)setUp {
@@ -57,13 +57,13 @@
 
 - (void)testHTTP {
 	// add listener
-	[MessageCenter addMessageListener:GOOGLE source:widget target:self action:@selector(httpReturned:)];
+	[IBMessageCenter addMessageListener:GOOGLE source:widget target:self action:@selector(httpReturned:)];
 
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"nintendo" forKey:@"QUERY"];
 	HTTPGetRequestMessage *message = [HTTPGetRequestMessage messageWithName:GOOGLE userInfo:userInfo url:@"http://www.google.com/search?q=[QUERY]"];
 	
 	// dispatch
-	[MessageCenter sendMessage:message forSource:widget];
+	[IBMessageCenter sendMessage:message forSource:widget];
 	
 }
 

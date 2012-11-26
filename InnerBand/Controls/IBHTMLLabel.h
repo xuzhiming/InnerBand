@@ -18,7 +18,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ARCMacros.h"
 
 @interface IBHTMLLabel : UIWebView {
 	NSString *_text;
@@ -30,7 +29,7 @@
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, assign) UITextAlignment textAlignment;
 
-@property (nonatomic, SAFE_ARC_PROP_RETAIN) UIColor *textColor;
-@property (nonatomic, SAFE_ARC_PROP_RETAIN) UIColor *linkColor;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIColor *linkColor;
 
 @end

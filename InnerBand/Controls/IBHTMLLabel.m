@@ -57,17 +57,9 @@
     return self;
 }
 
-- (void)dealloc {
-    SAFE_ARC_RELEASE(_text);
-    SAFE_ARC_RELEASE(_textColor);
-    SAFE_ARC_RELEASE(_linkColor);
-    SAFE_ARC_SUPER_DEALLOC();
-}
-
 #pragma mark -
 
 - (void)setText:(NSString *)value {
-    _text = SAFE_ARC_AUTORELEASE(_text);
 	_text = [value copy];
 	[self calculateHTML];
 }
@@ -79,8 +71,7 @@
 
 - (void)setTextColor:(UIColor *)value {
     if (_textColor != value) {
-        SAFE_ARC_RELEASE(_textColor);
-        _textColor = SAFE_ARC_RETAIN(value);
+        _textColor = value;
     }
     
 	[self calculateHTML];
@@ -88,8 +79,7 @@
 
 - (void)setLinkColor:(UIColor *)value {
     if (_linkColor != value) {
-        SAFE_ARC_RELEASE(_linkColor);
-        _linkColor = SAFE_ARC_RETAIN(value);
+        _linkColor = value;
     }
 
 	[self calculateHTML];

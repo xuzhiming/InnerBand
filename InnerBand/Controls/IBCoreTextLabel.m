@@ -8,8 +8,8 @@
 
 #import "IBCoreTextLabel.h"
 #import <CoreText/CoreText.h>
-#import "Macros.h"
-#import "Functions.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 #import "UIColor+InnerBand.h"
 
 @interface IBCoreTextLabel (PRIVATE)
@@ -53,21 +53,11 @@
 	return self;
 }
 
-- (void)dealloc {
-    SAFE_ARC_RELEASE(_text);
-    SAFE_ARC_RELEASE(_attrStr);
-    SAFE_ARC_RELEASE(_boldRanges);
-    SAFE_ARC_RELEASE(_italicRanges);
-    SAFE_ARC_RELEASE(_fontRanges);
-    SAFE_ARC_RELEASE(_underlineRanges);
-    SAFE_ARC_SUPER_DEALLOC();
-}
-
 - (void)calculateHeightForAttributedString {
     CGFloat H = 0;
     
     // Create the framesetter with the attributed string.
-    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString( (__bridge CFMutableAttributedStringRef) _attrStr); 
+    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString( (__bridge CFMutableAttributedStringRef) _attrStr);
     
     CGRect box = CGRectMake(0,0, self.bounds.size.width, CGFLOAT_MAX);
     
@@ -135,28 +125,24 @@
 
 - (void)setTextColor:(UIColor *)value {
     if (value != _textColor) {
-        SAFE_ARC_RELEASE(_textColor);
-        _textColor = SAFE_ARC_RETAIN(value);
+        _textColor = value;
     }
     
 	if (_text) {
 		NSMutableAttributedString *attrStr = [self createMutableAttributedStringFromText];
-        SAFE_ARC_RELEASE(_attrStr);
 
-        _attrStr = SAFE_ARC_RETAIN(attrStr);
+        _attrStr = attrStr;
 	}
 	
 	[self setNeedsDisplay];
 }
 
 - (void)setFont:(UIFont *)aFont {
-    SAFE_ARC_RELEASE(font);
-    font = SAFE_ARC_RETAIN(aFont);
+    font = aFont;
     
     if (_text) {
 		NSMutableAttributedString *attrStr = [self createMutableAttributedStringFromText];
-        SAFE_ARC_RELEASE(_attrStr);
-        _attrStr = SAFE_ARC_RETAIN(attrStr);
+        _attrStr = attrStr;
 	}
     
     [self calculateHeightForAttributedString];
@@ -164,8 +150,7 @@
 
 - (void)setText:(NSString *)value {
     if (_text != value) {
-        SAFE_ARC_RELEASE(_text);
-        _text = SAFE_ARC_RETAIN(value);
+        _text = value;
     }
     
 	[_boldRanges removeAllObjects];
@@ -175,8 +160,7 @@
 	
 	if (_text) {
 		NSMutableAttributedString *attrStr = [self createMutableAttributedStringFromText];
-        SAFE_ARC_RELEASE(_attrStr);
-        _attrStr = SAFE_ARC_RETAIN(attrStr);
+        _attrStr = attrStr;
 	}
     
     [self calculateHeightForAttributedString];
@@ -197,7 +181,7 @@
 	NSInteger medicalLoss = 0;
 	
 	while ([scanner  scanUpToString:@"<" intoString:&scanStr] || [scanner scanString:@"<" intoString:nil]) {
-        if (IS_EMPTY_STRING(scanStr)) {
+        if (IB_IS_EMPTY_STRING(scanStr)) {
             scanner.scanLocation = scanner.scanLocation - 1;
         } else {
             [scannedStr appendString:scanStr];            
@@ -231,7 +215,7 @@
 			medicalLoss += 7;
 		} else if ([scanner scanString:@"<font " intoString:nil]) {
 			[scanner scanUpToString:@">" intoString:&scanStr];
-            NSString *fontName = SAFE_ARC_AUTORELEASE([scanStr copy]);
+            NSString *fontName = [scanStr copy];
 			[scanner scanString:@">" intoString:nil];
 			
 			// font
@@ -249,7 +233,7 @@
 }
 
 - (NSMutableAttributedString *)createAttributesStringFromCatalog:(NSString *)str {
-    NSMutableAttributedString *attrString = SAFE_ARC_AUTORELEASE([[NSMutableAttributedString alloc] initWithString:str]);
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:str];
 	
 	[attrString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(id)_textColor.CGColor range:NSMakeRange(0, str.length)];
     
@@ -261,7 +245,7 @@
     }
     
 	for (NSValue *iValue in _boldRanges) {
-		[attrString addAttribute:(NSString *)(kCTStrokeWidthAttributeName) value:BOX_FLOAT(-3.0) range:iValue.rangeValue];
+		[attrString addAttribute:(NSString *)(kCTStrokeWidthAttributeName) value:IB_BOX_FLOAT(-3.0) range:iValue.rangeValue];
 	}
     
 	for (NSValue *iValue in _italicRanges) {
@@ -271,7 +255,7 @@
 	}
     
     for (NSValue *iValue in _underlineRanges) {
-		[attrString addAttribute:(NSString *)(kCTUnderlineStyleAttributeName) value:BOX_FLOAT(1.0) range:iValue.rangeValue];
+		[attrString addAttribute:(NSString *)(kCTUnderlineStyleAttributeName) value:IB_BOX_FLOAT(1.0) range:iValue.rangeValue];
 	}
     
 	for (NSInteger i=0; i < _fontRanges.count; i += 2) {
@@ -285,7 +269,7 @@
         if (pieces.count > 0) {
             iFontName = [pieces objectAtIndex:0];
             
-            if (IS_EMPTY_STRING(iFontName)) {
+            if (IB_IS_EMPTY_STRING(iFontName)) {
                 if (font) {
                     iFontName = font.fontName;    
                 } else {
@@ -297,7 +281,7 @@
         if (pieces.count > 1) {
             NSString *strFontSize = [pieces objectAtIndex:1];
             
-            if (!IS_EMPTY_STRING(strFontSize)) {
+            if (!IB_IS_EMPTY_STRING(strFontSize)) {
                 iFontSize = [strFontSize intValue];
             }
         }
@@ -305,13 +289,13 @@
         if (pieces.count > 2) {
             NSString *strFontColor = [pieces objectAtIndex:2];
             
-            if (!IS_EMPTY_STRING(strFontColor)) {
+            if (!IB_IS_EMPTY_STRING(strFontColor)) {
                 UIColor *iFontColor = [UIColor colorWithHexString:strFontColor];
                 [attrString addAttribute:(NSString *)kCTForegroundColorAttributeName value:(__bridge id)iFontColor.CGColor range:iValue.rangeValue];
             }
         }
 
-		CTFontRef iFont = CTFontCreateWithName((__bridge CFStringRef)iFontName, font.pointSize, nil);
+		CTFontRef iFont = CTFontCreateWithName((__bridge CFStringRef)iFontName, iFontSize, nil);
 		[attrString addAttribute:(NSString *)(kCTFontAttributeName) value:(__bridge id)iFont range:iValue.rangeValue];
         CFRelease(iFont);
 	}

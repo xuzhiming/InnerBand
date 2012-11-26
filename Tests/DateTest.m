@@ -18,8 +18,9 @@
 //
 
 #import "GHUnit.h"
-#import "Macros.h"
+#import "IBMacros.h"
 #import "NSDate+InnerBand.h"
+#import "IBConstants.h"
 
 @interface DateTest : GHTestCase
 
@@ -44,6 +45,90 @@
 - (void)tearDown {
     // Run after each test method
 }   
+
+- (void)testAddingSeconds {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    NSDate *futureDate = [date dateByAddingSeconds:60];
+
+	GHAssertEquals(1970, futureDate.utcYear, nil);
+	GHAssertEquals(1, futureDate.utcMonth, nil);
+	GHAssertEquals(1, futureDate.utcDay, nil);
+	GHAssertEquals(0, futureDate.utcHour, nil);
+	GHAssertEquals(1, futureDate.utcMinute, nil);
+	GHAssertEquals(0, futureDate.utcSecond, nil);
+}
+
+- (void)testAddingMinutes {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    NSDate *futureDate = [date dateByAddingMinutes:(MINUTES_IN_HOUR * 25)];
+
+	GHAssertEquals(1970, futureDate.utcYear, nil);
+	GHAssertEquals(1, futureDate.utcMonth, nil);
+	GHAssertEquals(2, futureDate.utcDay, nil);
+	GHAssertEquals(1, futureDate.utcHour, nil);
+	GHAssertEquals(0, futureDate.utcMinute, nil);
+	GHAssertEquals(0, futureDate.utcSecond, nil);
+}
+
+- (void)testAddingHours {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    NSDate *futureDate = [date dateByAddingHours:25];
+
+	GHAssertEquals(1970, futureDate.utcYear, nil);
+	GHAssertEquals(1, futureDate.utcMonth, nil);
+	GHAssertEquals(2, futureDate.utcDay, nil);
+	GHAssertEquals(1, futureDate.utcHour, nil);
+	GHAssertEquals(0, futureDate.utcMinute, nil);
+	GHAssertEquals(0, futureDate.utcSecond, nil);
+}
+
+- (void)testAddingDays {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    NSDate *futureDate = [date dateByAddingDays:3];
+
+	GHAssertEquals(1970, futureDate.utcYear, nil);
+	GHAssertEquals(1, futureDate.utcMonth, nil);
+	GHAssertEquals(4, futureDate.utcDay, nil);
+	GHAssertEquals(0, futureDate.utcHour, nil);
+	GHAssertEquals(0, futureDate.utcMinute, nil);
+	GHAssertEquals(0, futureDate.utcSecond, nil);
+}
+
+- (void)testAddingMonths {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    NSDate *futureDate = [date dateByAddingMonths:12];
+
+	GHAssertEquals(1971, futureDate.utcYear, nil);
+	GHAssertEquals(1, futureDate.utcMonth, nil);
+	GHAssertEquals(1, futureDate.utcDay, nil);
+	GHAssertEquals(0, futureDate.utcHour, nil);
+	GHAssertEquals(0, futureDate.utcMinute, nil);
+	GHAssertEquals(0, futureDate.utcSecond, nil);
+}
+
+- (void)testAddingWeeks {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    NSDate *futureDate = [date dateByAddingWeeks:2];
+
+	GHAssertEquals(1970, futureDate.utcYear, nil);
+	GHAssertEquals(1, futureDate.utcMonth, nil);
+	GHAssertEquals(15, futureDate.utcDay, nil);
+	GHAssertEquals(0, futureDate.utcHour, nil);
+	GHAssertEquals(0, futureDate.utcMinute, nil);
+	GHAssertEquals(0, futureDate.utcSecond, nil);
+}
+
+- (void)testAddingYears {
+	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    NSDate *futureDate = [date dateByAddingYears:1];
+
+	GHAssertEquals(1971, futureDate.utcYear, nil);
+	GHAssertEquals(1, futureDate.utcMonth, nil);
+	GHAssertEquals(1, futureDate.utcDay, nil);
+	GHAssertEquals(0, futureDate.utcHour, nil);
+	GHAssertEquals(0, futureDate.utcMinute, nil);
+	GHAssertEquals(0, futureDate.utcSecond, nil);
+}
 
 - (void)testUTCComparison {
 	NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];

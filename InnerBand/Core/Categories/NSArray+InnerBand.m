@@ -20,7 +20,6 @@
 #import "NSArray+InnerBand.h"
 #import "NSString+InnerBand.h"
 #import "NSMutableArray+InnerBand.h"
-#import "ARCMacros.h"
 
 @implementation NSArray (InnerBand)
 
@@ -48,7 +47,7 @@
         [reversedArray addObject:iObject];
     }
     
-    return SAFE_ARC_AUTORELEASE([reversedArray copy]);
+    return [reversedArray copy];
 }
 
 - (NSArray *)shuffledArray {
@@ -56,7 +55,7 @@
     
     [shuffledArray shuffle];
     
-    return SAFE_ARC_AUTORELEASE([shuffledArray copy]);
+    return [shuffledArray copy];
 }
 
 - (id)firstObject {

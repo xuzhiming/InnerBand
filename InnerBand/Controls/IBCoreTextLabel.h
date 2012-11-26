@@ -9,7 +9,6 @@
 // supports <b>, <i>, <font face="XXX" size="XXX" color="">, and <br>
 
 #import <Foundation/Foundation.h>
-#import "ARCMacros.h"
 
 @interface IBCoreTextLabel : UIControl {
 	UIColor *_textColor;
@@ -23,9 +22,9 @@
 	NSMutableArray *_underlineRanges;
 }
 
-@property (nonatomic, SAFE_ARC_PROP_RETAIN) NSString *text;
-@property (nonatomic, SAFE_ARC_PROP_RETAIN) UIColor *textColor;
-@property (nonatomic, SAFE_ARC_PROP_RETAIN) UIFont *font;
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIFont *font;
 @property (nonatomic, readonly) float measuredHeight;
 
 @end

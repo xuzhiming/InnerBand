@@ -19,10 +19,10 @@
 
 
 #import "GHUnit.h"
-#import "Macros.h"
-#import "Functions.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 #import "NSMutableArray+InnerBand.h"
-#import "CoreDataStore.h"
+#import "IBCoreDataStore.h"
 #import "CoreDataWidget.h"
 #import "NSManagedObject+InnerBand.h"
 
@@ -30,7 +30,7 @@
 
 - (NSManagedObject *)makeWidgetWithInteger:(NSInteger)value;
 - (NSManagedObject *)makeWidgetInstanceWithInteger:(NSInteger)value;
-- (NSManagedObject *)makeWidgetInstanceWithInteger:(NSInteger)value inStore:(CoreDataStore *)store;
+- (NSManagedObject *)makeWidgetInstanceWithInteger:(NSInteger)value inStore:(IBCoreDataStore *)store;
 - (NSManagedObject *)makeWidgetWithBool:(BOOL)value;
 - (NSManagedObject *)makeWidgetWithFloat:(float)value;
 
@@ -47,7 +47,7 @@
 }
 
 - (void)setUp {
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 	
     // Run before each test method
 	[store clearAllData];
@@ -60,7 +60,7 @@
 - (void)testInitialization {
 	NSArray *widgets;
 	NSError *error = nil;
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 
 	widgets = [store allForEntity:@"CoreDataWidget" error:&error];
 	GHAssertEquals(0U, widgets.count, nil);
@@ -69,7 +69,7 @@
 - (void)testCreation {
 	NSArray *widgets;
 	NSError *error = nil;
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 
 	// add 1
 	[self makeWidgetWithInteger:0];
@@ -102,7 +102,7 @@
 
 - (void)testInstanceStoreCreation {
 	NSArray *widgets;
-    CoreDataStore *store = [CoreDataStore createStore];
+    IBCoreDataStore *store = [IBCoreDataStore createStore];
     
 	// add 1
 	[self makeWidgetInstanceWithInteger:0 inStore:store];
@@ -121,7 +121,7 @@
 	NSArray *widgets;
 	NSError *error = nil;
 	
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 	
 	// add 3
 	widgets = [NSArray arrayWithObjects:[self makeWidgetWithInteger:0], [self makeWidgetWithInteger:0], [self makeWidgetWithInteger:0], nil];
@@ -143,7 +143,7 @@
 - (void)testRemoveAll {
 	NSArray *widgets;
 	NSError *error = nil;
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 	
 	// add some
 	[self makeWidgetWithInteger:0];
@@ -162,7 +162,7 @@
 
 - (void)testSearchByKey {
 	NSError *error = nil;
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 	
 	// add some
 	[self makeWidgetWithInteger:0];
@@ -170,47 +170,47 @@
 	[self makeWidgetWithInteger:2];
 	
 	// search
-	NSManagedObject *obj = [store entityByName:@"CoreDataWidget" key:@"i" value:BOX_INT(1) error:&error];
+	NSManagedObject *obj = [store entityByName:@"CoreDataWidget" key:@"i" value:IB_BOX_INT(1) error:&error];
 	
-	GHAssertNotEquals(BOX_INT(0), [obj valueForKey:@"i"], nil);
-	GHAssertEquals(BOX_INT(1), [obj valueForKey:@"i"], nil);
-	GHAssertNotEquals(BOX_INT(2), [obj valueForKey:@"i"], nil);
+	GHAssertNotEquals(IB_BOX_INT(0), [obj valueForKey:@"i"], nil);
+	GHAssertEquals(IB_BOX_INT(1), [obj valueForKey:@"i"], nil);
+	GHAssertNotEquals(IB_BOX_INT(2), [obj valueForKey:@"i"], nil);
 }
 
 - (NSManagedObject *)makeWidgetWithInteger:(NSInteger)value {
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 	NSManagedObject *widget = [store createNewEntityByName:@"CoreDataWidget"];
-	[widget setValue:BOX_INT(value) forKey:@"i"];
+	[widget setValue:IB_BOX_INT(value) forKey:@"i"];
 	
 	return widget;
 }
 
 - (NSManagedObject *)makeWidgetInstanceWithInteger:(NSInteger)value {
 	CoreDataWidget *widget = [CoreDataWidget create];
-	[widget setValue:BOX_INT(value) forKey:@"i"];
+	[widget setValue:IB_BOX_INT(value) forKey:@"i"];
 	
 	return widget;
 }
 
-- (NSManagedObject *)makeWidgetInstanceWithInteger:(NSInteger)value inStore:(CoreDataStore *)store {
+- (NSManagedObject *)makeWidgetInstanceWithInteger:(NSInteger)value inStore:(IBCoreDataStore *)store {
 	CoreDataWidget *widget = [CoreDataWidget createInStore:store];
-	[widget setValue:BOX_INT(value) forKey:@"i"];
+	[widget setValue:IB_BOX_INT(value) forKey:@"i"];
 	
 	return widget;
 }
 
 - (NSManagedObject *)makeWidgetWithBool:(BOOL)value {
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 	NSManagedObject *widget = [store createNewEntityByName:@"CoreDataWidget"];
-	[widget setValue:BOX_BOOL(value) forKey:@"b"];
+	[widget setValue:IB_BOX_BOOL(value) forKey:@"b"];
 	
 	return widget;
 }
 
 - (NSManagedObject *)makeWidgetWithFloat:(float)value {
-	CoreDataStore *store = [CoreDataStore mainStore];
+	IBCoreDataStore *store = [IBCoreDataStore mainStore];
 	NSManagedObject *widget = [store createNewEntityByName:@"CoreDataWidget"];
-	[widget setValue:BOX_FLOAT(value) forKey:@"f"];
+	[widget setValue:IB_BOX_FLOAT(value) forKey:@"f"];
 	
 	return widget;
 }

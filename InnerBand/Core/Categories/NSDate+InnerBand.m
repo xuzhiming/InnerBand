@@ -19,22 +19,56 @@
 
 #import "NSDate+InnerBand.h"
 #import <time.h>
-#import "Constants.h"
-#import "ARCMacros.h"
+#import "IBConstants.h"
 
 @implementation NSDate (InnerBand)
 
-+ (NSDate *)dateDaysAgo:(NSInteger)numDays {
+- (NSDate *)dateByAddingSeconds:(NSInteger)numSeconds {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSDayCalendarUnit fromDate:[NSDate date]];
-    [_datecomp setDay:[_datecomp day] - numDays];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    [_datecomp setSecond:[_datecomp minute] + numSeconds];
     return [_calendar dateFromComponents:_datecomp];
 }
 
-+ (NSDate *)dateWeeksAgo:(NSInteger)numWeeks {
+- (NSDate *)dateByAddingMinutes:(NSInteger)numMinutes {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSWeekCalendarUnit fromDate:[NSDate date]];
-    [_datecomp setWeek:[_datecomp week] - numWeeks];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    [_datecomp setMinute:[_datecomp minute] + numMinutes];
+    return [_calendar dateFromComponents:_datecomp];
+}
+
+- (NSDate *)dateByAddingHours:(NSInteger)numHours {
+    NSCalendar *_calendar = [NSCalendar currentCalendar];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    [_datecomp setHour:[_datecomp hour] + numHours];
+    return [_calendar dateFromComponents:_datecomp];
+}
+
+- (NSDate *)dateByAddingDays:(NSInteger)numDays {
+    NSCalendar *_calendar = [NSCalendar currentCalendar];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    [_datecomp setDay:[_datecomp day] + numDays];
+    return [_calendar dateFromComponents:_datecomp];
+}
+
+- (NSDate *)dateByAddingWeeks:(NSInteger)numWeeks {
+    NSCalendar *_calendar = [NSCalendar currentCalendar];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    [_datecomp setWeek:[_datecomp week] + numWeeks];
+    return [_calendar dateFromComponents:_datecomp];
+}
+
+- (NSDate *)dateByAddingMonths:(NSInteger)numMonths {
+    NSCalendar *_calendar = [NSCalendar currentCalendar];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    [_datecomp setMonth:[_datecomp month] + numMonths];
+    return [_calendar dateFromComponents:_datecomp];
+}
+
+- (NSDate *)dateByAddingYears:(NSInteger)numYears {
+    NSCalendar *_calendar = [NSCalendar currentCalendar];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    [_datecomp setYear:[_datecomp year] + numYears];
     return [_calendar dateFromComponents:_datecomp];
 }
 
@@ -117,7 +151,7 @@
 }
 
 - (NSString *)formattedUTCDateStyle:(NSDateFormatterStyle)dateStyle {
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
 
 	[format setDateStyle:dateStyle];
 	[format setTimeStyle:NSDateFormatterNoStyle];
@@ -127,8 +161,8 @@
 }
 
 - (NSString *)formattedUTCTimeStyle:(NSDateFormatterStyle)timeStyle {
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
-    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+
 	[format setDateStyle:NSDateFormatterNoStyle];
 	[format setTimeStyle:timeStyle];
 	[format setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
@@ -137,8 +171,8 @@
 }
 
 - (NSString *)formattedUTCDateStyle:(NSDateFormatterStyle)dateStyle timeStyle:(NSDateFormatterStyle)timeStyle {
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
-    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+
 	[format setDateStyle:dateStyle];
 	[format setTimeStyle:timeStyle];
 	[format setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
@@ -150,8 +184,8 @@
 	//
 	// format document: http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns
 	//
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
-    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+
 	[format setDateFormat:datePattern];
 	[format setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
 	
@@ -159,8 +193,8 @@
 }
 
 - (NSString *)formattedDateStyle:(NSDateFormatterStyle)dateStyle {
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
-    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+
 	[format setDateStyle:dateStyle];
 	[format setTimeStyle:NSDateFormatterNoStyle];
 	
@@ -168,8 +202,8 @@
 }
 
 - (NSString *)formattedTimeStyle:(NSDateFormatterStyle)timeStyle {
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
-    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+
 	[format setDateStyle:NSDateFormatterNoStyle];
 	[format setTimeStyle:timeStyle];
 
@@ -177,8 +211,8 @@
 }
 
 - (NSString *)formattedDateStyle:(NSDateFormatterStyle)dateStyle timeStyle:(NSDateFormatterStyle)timeStyle {
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
-    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+
 	[format setDateStyle:dateStyle];
 	[format setTimeStyle:timeStyle];
 	
@@ -189,8 +223,8 @@
 	//
 	// format document: http://unicode.org/reports/tr35/tr35-6.html#Date_Format_Patterns
 	//
-    NSDateFormatter *format = SAFE_ARC_AUTORELEASE([[NSDateFormatter alloc] init]);
-    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+
 	[format setDateFormat:datePattern];
 	
 	return [format stringFromDate:self];

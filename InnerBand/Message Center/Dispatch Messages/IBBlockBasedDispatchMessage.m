@@ -1,5 +1,5 @@
 //
-//  BlockBasedDispatchMessage.m
+//  IBBlockBasedDispatchMessage.m
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,25 +17,18 @@
 //  limitations under the License.
 //
 
-#import "BlockBasedDispatchMessage.h"
-#import "ARCMacros.h"
+#import "IBBlockBasedDispatchMessage.h"
 
-@implementation BlockBasedDispatchMessage
+@implementation IBBlockBasedDispatchMessage
 
 + (id)messageWithName:(NSString *)name isAsynchronous:(BOOL)isAsync input:(void (^)(NSData *))inputBlock output:(NSData * (^)(void))outputBlock {
-    BlockBasedDispatchMessage *msg = [[BlockBasedDispatchMessage alloc] initWithName:name userInfo:nil];
+    IBBlockBasedDispatchMessage *msg = [[IBBlockBasedDispatchMessage alloc] initWithName:name userInfo:nil];
     msg.asynchronous = isAsync;
 
-    msg->inputBlock_ = SAFE_ARC_BLOCK_COPY(inputBlock);
-    msg->outputBlock_ = SAFE_ARC_BLOCK_COPY(outputBlock);
+    msg->inputBlock_ = [inputBlock copy];
+    msg->outputBlock_ = [outputBlock copy];
 
-    return SAFE_ARC_AUTORELEASE(msg);
-}
-
-- (void)dealloc {
-    SAFE_ARC_BLOCK_RELEASE(inputBlock_);
-    SAFE_ARC_BLOCK_RELEASE(outputBlock_);
-    SAFE_ARC_SUPER_DEALLOC();
+    return msg;
 }
 
 - (void)inputData:(NSData *)input {

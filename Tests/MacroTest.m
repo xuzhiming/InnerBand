@@ -18,8 +18,8 @@
 //
 
 #import "GHUnit.h"
-#import "Functions.h"
-#import "Macros.h"
+#import "IBFunctions.h"
+#import "IBMacros.h"
 
 @interface MacroTest : GHTestCase
 @end

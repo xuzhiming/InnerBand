@@ -1,5 +1,5 @@
 //
-//  SequencedMessage.h
+//  IBMessageProcessor.h
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -18,14 +18,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DispatchMessage.h"
 
-@interface SequencedMessage : DispatchMessage {
-	NSMutableArray *_messageSequence;
-	NSData *_outputOfLastMessage;
+@class IBDispatchMessage;
+
+@interface IBMessageProcessor : NSObject {
+	IBDispatchMessage *_message;
+	NSArray *_targetActions;
 }
 
-- (id)initWithName:(NSString *)name userInfo:(NSDictionary *)userInfo sequence:(NSArray *)messageSequence;
-+ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo sequence:(NSArray *)messageSequence;
+- (id)initWithMessage:(IBDispatchMessage *)message targetActions:(NSArray *)targetActions;
+- (void)process;
 
 @end

@@ -18,7 +18,6 @@
 //
 
 #import "IBAlertView.h"
-#import "ARCMacros.h"
 
 @implementation IBAlertView
 
@@ -27,7 +26,7 @@
 }
 
 + (id)alertWithTitle:(NSString *)title message:(NSString *)message dismissTitle:(NSString *)dismissTitle okTitle:(NSString *)okTitle dismissBlock:(void (^)(void))dismissBlock okBlock:(void (^)(void))okBlock {
-    return SAFE_ARC_AUTORELEASE([[IBAlertView alloc] initWithTitle:title message:message dismissTitle:dismissTitle okTitle:okTitle dismissBlock:dismissBlock okBlock:okBlock]);
+    return [[IBAlertView alloc] initWithTitle:title message:message dismissTitle:dismissTitle okTitle:okTitle dismissBlock:dismissBlock okBlock:okBlock];
 }
 
 + (void)showDismissWithTitle:(NSString *)title message:(NSString *)message dismissBlock:(void (^)(void))dismissBlock {
@@ -38,8 +37,8 @@
     self = [super initWithTitle:title message:message delegate:self cancelButtonTitle:dismissTitle otherButtonTitles:okTitle, nil];
     
     if (self) {
-        okCallback_ = SAFE_ARC_BLOCK_COPY(okBlock);
-        dismissCallback_ = SAFE_ARC_BLOCK_COPY(dismissBlock);
+        okCallback_ = [okBlock copy];
+        dismissCallback_ = [dismissBlock copy];
     }
     
     return self;
@@ -50,24 +49,18 @@
 }
 
 + (id)alertWithTitle:(NSString *)title message:(NSString *)message dismissTitle:(NSString *)dismissTitle dismissBlock:(void (^)(void))dismissBlock {
-    return SAFE_ARC_AUTORELEASE([[IBAlertView alloc] initWithTitle:title message:message dismissTitle:dismissTitle dismissBlock:dismissBlock]);    
+    return [[IBAlertView alloc] initWithTitle:title message:message dismissTitle:dismissTitle dismissBlock:dismissBlock];    
 }
 
 - (id)initWithTitle:(NSString *)title message:(NSString *)message dismissTitle:(NSString *)dismissTitle dismissBlock:(void (^)(void))dismissBlock {
     self = [super initWithTitle:title message:message delegate:self cancelButtonTitle:dismissTitle otherButtonTitles:nil];
     
     if (self) {
-        dismissCallback_ = SAFE_ARC_BLOCK_COPY(dismissBlock);
+        dismissCallback_ = [dismissBlock copy];
     }
     
     return self;
 }                                                                                                                                                      
-
-- (void)dealloc {
-    SAFE_ARC_BLOCK_RELEASE(okCallback_);
-    SAFE_ARC_BLOCK_RELEASE(dismissCallback_);    
-    SAFE_ARC_SUPER_DEALLOC();
-}
 
 #pragma mark -
 

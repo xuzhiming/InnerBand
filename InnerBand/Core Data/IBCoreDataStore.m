@@ -1,5 +1,5 @@
 //
-//  CoreDataCoreDataStore.m
+//  IBCoreDataCoreDataStore.m
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,60 +17,63 @@
 //  limitations under the License.
 //
 
-#import "CoreDataStore.h"
-#import "Macros.h"
-#import "Functions.h"
-#import "ARCMacros.h"
+#import "IBCoreDataStore.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 
 // global Core Data objects
 __strong static NSManagedObjectModel *gManagedObjectModel;
 __strong static NSPersistentStoreCoordinator *gPersistentStoreCoordinator;
 
 // main thread singleton
-static CoreDataStore *gMainStoreInstance;
+static IBCoreDataStore *gMainStoreInstance;
 
-@interface CoreDataStore ()
+@interface IBCoreDataStore ()
 
 - (void)createManagedObjectContext;
 
 @end
 
-@implementation CoreDataStore
+@implementation IBCoreDataStore
 
-+ (CoreDataStore *)mainStore {
++ (IBCoreDataStore *)mainStore {
 	@synchronized (self) {
 		if (!gMainStoreInstance) {
-			gMainStoreInstance = [[CoreDataStore alloc] init];
+			gMainStoreInstance = [[IBCoreDataStore alloc] init];
 		}
 	}
 	
 	return gMainStoreInstance;
 }
 
-+ (CoreDataStore *)createStore {
-    return SAFE_ARC_AUTORELEASE([[CoreDataStore alloc] init]);
++ (IBCoreDataStore *)createStore {
+    return [[IBCoreDataStore alloc] init];
 }
 
 + (void)initialize {
 	NSError *error = nil;
 
 	// create the global managed object model
-    gManagedObjectModel = SAFE_ARC_RETAIN([NSManagedObjectModel mergedModelFromBundles:nil]);    
+    gManagedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
 
 	// create the global persistent store
     gPersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:gManagedObjectModel];
 	
-	NSString *storeLocation = [DOCUMENTS_DIR() stringByAppendingPathComponent:@"CoreDataStore.sqlite"];
+	NSString *storeLocation = [IB_DOCUMENTS_DIR() stringByAppendingPathComponent:@"CoreDataStore.sqlite"];
 	NSURL *storeURL = [NSURL fileURLWithPath:storeLocation];
-	
-	if (![gPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       IB_BOX_BOOL(YES), NSMigratePersistentStoresAutomaticallyOption,
+                                       IB_BOX_BOOL(YES), NSInferMappingModelAutomaticallyOption, nil];
+
+	if (![gPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
 		NSLog(@"Error creating persistantStoreCoordinator: %@, %@", error, [error userInfo]);
 		abort();
     }    
 }
 
-+ (CoreDataStore *)createStoreWithContext:(NSManagedObjectContext *)context {
-    return SAFE_ARC_AUTORELEASE([[CoreDataStore alloc] initWithContext:context]);
++ (IBCoreDataStore *)createStoreWithContext:(NSManagedObjectContext *)context {
+    return [[IBCoreDataStore alloc] initWithContext:context];
 }
 
 - (id)init {
@@ -83,15 +86,10 @@ static CoreDataStore *gMainStoreInstance;
 
 - (id)initWithContext:(NSManagedObjectContext *)context {
 	if ((self = [super init])) {
-        _managedObjectContext = SAFE_ARC_RETAIN(context);
+        _managedObjectContext = context;
 	}
 	
 	return self;
-}
-
-- (void)dealloc {
-    SAFE_ARC_RELEASE(_managedObjectContext);    
-    SAFE_ARC_SUPER_DEALLOC();
 }
 
 #pragma mark -
@@ -104,16 +102,12 @@ static CoreDataStore *gMainStoreInstance;
 	NSError *error = nil;
 	
 	// clear existing stack
-	SAFE_ARC_RELEASE(gManagedObjectModel);
-	SAFE_ARC_RELEASE(gPersistentStoreCoordinator);
-	SAFE_ARC_RELEASE(_managedObjectContext);
-	
     gManagedObjectModel = nil;
     gPersistentStoreCoordinator = nil;
     _managedObjectContext = nil;
     
 	// remove persistence file
-	NSString *storeLocation = [DOCUMENTS_DIR() stringByAppendingPathComponent:@"CoreDataStore.sqlite"];
+	NSString *storeLocation = [IB_DOCUMENTS_DIR() stringByAppendingPathComponent:@"CoreDataStore.sqlite"];
 	NSURL *storeURL = [NSURL fileURLWithPath:storeLocation];
 	
 	// remove
@@ -124,7 +118,7 @@ static CoreDataStore *gMainStoreInstance;
 	}
 	
 	// init again
-	[CoreDataStore initialize];
+	[IBCoreDataStore initialize];
 	[self createManagedObjectContext];
 }
 

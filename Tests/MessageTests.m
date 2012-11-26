@@ -19,12 +19,12 @@
 
 #import "GHUnit.h"
 #import "Widget.h"
-#import "MessageCenter.h"
-#import "DispatchMessage.h"
+#import "IBMessageCenter.h"
+#import "IBDispatchMessage.h"
 #import "StringAppenderMessage.h"
-#import "SequencedMessage.h"
-#import "Macros.h"
-#import "Functions.h"
+#import "IBSequencedMessage.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 
 #define GOOGLE @"GOOGLE"
 
@@ -65,7 +65,7 @@
 
 - (void)testListener {
 	// add listener
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// fire!
 	[widget fireAlpha];
@@ -76,7 +76,7 @@
 
 - (void)testIncorrectListener {
 	// add listener
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// fire a different message!
 	[widget fireBeta];
@@ -87,8 +87,8 @@
 
 - (void)testMultipleListeners {
 	// add listeners
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFireAsWell)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFireAsWell)];
 	
 	// fire!
 	[widget fireAlpha];
@@ -102,7 +102,7 @@
 	Widget *widget2 = [[Widget alloc] init];
 	
 	// add listener to this other widget
-	[MessageCenter addMessageListener:ALPHA_MSG source:nil target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:nil target:self action:@selector(methodToFire)];
 	
 	// fire global message on original widget!
 	[widget fireGlobalAlpha];
@@ -112,7 +112,7 @@
 
 - (void)testListenerFiredMultipleTimes {
 	// add listener
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// fire 3 times!
 	[widget fireAlpha];
@@ -125,10 +125,10 @@
 
 - (void)testRemovingSelectorListener {
 	// add listener
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// remove listener by target/action
-	[MessageCenter removeMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter removeMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// fire!
 	[widget fireAlpha];
@@ -139,10 +139,10 @@
 
 - (void)testRemovingTargetListener {
 	// add listener
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// remove listener by target
-	[MessageCenter removeMessageListener:ALPHA_MSG source:widget target:self];
+	[IBMessageCenter removeMessageListener:ALPHA_MSG source:widget target:self];
 	
 	// fire!
 	[widget fireAlpha];
@@ -153,10 +153,10 @@
 
 - (void)testRemovingAllListenersByTarget {
 	// add listener
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// remove all listeners
-	[MessageCenter removeMessageListenersForTarget:self];
+	[IBMessageCenter removeMessageListenersForTarget:self];
 	
 	// fire!
 	[widget fireAlpha];
@@ -167,7 +167,7 @@
 
 - (void)testAddingAndRemovingTargetListener {
 	// add listener
-	[MessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
+	[IBMessageCenter addMessageListener:ALPHA_MSG source:widget target:self action:@selector(methodToFire)];
 	
 	// fire!
 	[widget fireAlpha];
@@ -176,7 +176,7 @@
 	GHAssertEquals(1, methodFiredTimes, nil);
 	
 	// remove listener
-	[MessageCenter removeMessageListener:ALPHA_MSG source:widget target:self];
+	[IBMessageCenter removeMessageListener:ALPHA_MSG source:widget target:self];
 	
 	// fire!
 	[widget fireAlpha];
@@ -188,30 +188,30 @@
 - (void)testStringAppenderMessage {
 	StringAppenderMessage *alphaMessage;
 	StringAppenderMessage *betaMessage;
-	SequencedMessage *seqMessage;
+	IBSequencedMessage *seqMessage;
 	
 	// add listener
-	[MessageCenter addMessageListener:@"APPEND" source:widget target:self action:@selector(methodToVerifyStringAppender:)];
+	[IBMessageCenter addMessageListener:@"APPEND" source:widget target:self action:@selector(methodToVerifyStringAppender:)];
 	
 	// dispatch test of nil + ALPHA = ALPHA
 	alphaMessage = [[[StringAppenderMessage alloc] initWithName:@"APPEND" string:@"ALPHA" userInfo:[NSDictionary dictionaryWithObject:@"ALPHA" forKey:@"actual"]] autorelease];
-	[MessageCenter sendMessage:alphaMessage forSource:widget];	
+	[IBMessageCenter sendMessage:alphaMessage forSource:widget];	
 	
 	// dispatch test of nil + ALPHA + BETA = ALPHABETA
 	alphaMessage = [[[StringAppenderMessage alloc] initWithName:nil string:@"ALPHA" userInfo:nil] autorelease];
 	betaMessage = [[[StringAppenderMessage alloc] initWithName:nil string:@"BETA" userInfo:nil] autorelease];
-	seqMessage = [SequencedMessage messageWithName:@"APPEND" userInfo:[NSDictionary dictionaryWithObject:@"ALPHABETA" forKey:@"actual"] sequence:[NSArray arrayWithObjects:alphaMessage, betaMessage, nil]];
+	seqMessage = [IBSequencedMessage messageWithName:@"APPEND" userInfo:[NSDictionary dictionaryWithObject:@"ALPHABETA" forKey:@"actual"] sequence:[NSArray arrayWithObjects:alphaMessage, betaMessage, nil]];
 	
-	[MessageCenter sendMessage:seqMessage forSource:widget];	
+	[IBMessageCenter sendMessage:seqMessage forSource:widget];	
 }
 
 - (void)testObjectsAndKeys {
-    DispatchMessage *msg = [DispatchMessage messageWithName:@"anon" andObjectsAndKeys:BOX_INT(1), @"one", BOX_INT(2), @"two", nil];
-    GHAssertEqualObjects(BOX_INT(1), [msg.userInfo objectForKey:@"one"], nil);
-    GHAssertEqualObjects(BOX_INT(2), [msg.userInfo objectForKey:@"two"], nil);
+    IBDispatchMessage *msg = [IBDispatchMessage messageWithName:@"anon" andObjectsAndKeys:IB_BOX_INT(1), @"one", IB_BOX_INT(2), @"two", nil];
+    GHAssertEqualObjects(IB_BOX_INT(1), [msg.userInfo objectForKey:@"one"], nil);
+    GHAssertEqualObjects(IB_BOX_INT(2), [msg.userInfo objectForKey:@"two"], nil);
     
-    [msg setUserInfoValue:BOX_INT(3) forKey:@"three"];
-    GHAssertEqualObjects(BOX_INT(3), [msg.userInfo objectForKey:@"three"], nil);
+    [msg setUserInfoValue:IB_BOX_INT(3) forKey:@"three"];
+    GHAssertEqualObjects(IB_BOX_INT(3), [msg.userInfo objectForKey:@"three"], nil);
 }
 
 - (void)methodToFire {
@@ -222,14 +222,14 @@
 	methodFiredTimes++;
 }
 
-- (void)methodToVerifyStringAppender:(DispatchMessage *)message {
+- (void)methodToVerifyStringAppender:(IBDispatchMessage *)message {
 	NSString *convertedString = [[NSString alloc] initWithData:[message outputData] encoding:NSUTF8StringEncoding];
 	
 	// check nil and ALPHA concatenated
 	GHAssertEqualObjects([message.userInfo objectForKey:@"actual"], convertedString, nil);
 }
 
-- (void)methodToFireAndReceiveMessageWithWORKS:(DispatchMessage *)message {
+- (void)methodToFireAndReceiveMessageWithWORKS:(IBDispatchMessage *)message {
 	// only bumps the counter if we have appropriate message info
 	if (message.userInfo && [message.userInfo objectForKey:@"WORKS"]) {
 		methodFiredWithWorks++;

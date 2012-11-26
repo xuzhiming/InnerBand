@@ -1,64 +1,46 @@
 //
-//  HTTPGetRequestMessage.m
-//  InnerBand
+//  IBHTTPPostRequestMessage.m
+//  Broadway
 //
-//  InnerBand - The iOS Booster!
-//
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
+//  Created by John Blanco on 10/7/11.
+//  Copyright (c) 2011 Rapture In Venice. All rights reserved.
 //
 
-#import "HTTPGetRequestMessage.h"
+#import "IBHTTPPostRequestMessage.h"
 #import <UIKit/UIKit.h>
-#import "Macros.h"
-#import "MessageCenter.h"
-#import "Functions.h"
-#import "ARCMacros.h"
+#import "IBMacros.h"
+#import "IBMessageCenter.h"
+#import "IBFunctions.h"
 
-@implementation HTTPGetRequestMessage
+@implementation IBHTTPPostRequestMessage
 
-+ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url {
-	HTTPGetRequestMessage *message = [[HTTPGetRequestMessage alloc] initWithName:name userInfo:userInfo];
++ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url body:(NSString *)body {
+	IBHTTPPostRequestMessage *message = [[IBHTTPPostRequestMessage alloc] initWithName:name userInfo:userInfo];
 	
 	// must be async
 	message.asynchronous = YES;
 	
-    message->_url = [url copy];
+	message->_url = [url copy];
 	message->_headersDict = [[NSMutableDictionary alloc] init];
-	
+	message->_body = [body copy];
+
 	// autorelease
-    return SAFE_ARC_AUTORELEASE(message);
+    return message;
 }
 
-+ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url processBlock:(ib_http_proc_t)processBlock {
-	HTTPGetRequestMessage *message = [[HTTPGetRequestMessage alloc] initWithName:name userInfo:userInfo];
++ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url body:(NSString *)body processBlock:(ib_http_proc_t)processBlock {
+	IBHTTPPostRequestMessage *message = [[IBHTTPPostRequestMessage alloc] initWithName:name userInfo:userInfo];
 	
 	// must be async
 	message.asynchronous = YES;
 	
-    message->_url = [url copy];
+	message->_url = [url copy];
 	message->_headersDict = [[NSMutableDictionary alloc] init];
-    message->_processBlock = SAFE_ARC_BLOCK_COPY(processBlock);
+	message->_body = [body copy];
+    message->_processBlock = [processBlock copy];
     
 	// autorelease
-    return SAFE_ARC_AUTORELEASE(message);    
-}
-
-- (void)dealloc {
-    SAFE_ARC_RELEASE(_url);
-    SAFE_ARC_RELEASE(_responseData);
-    SAFE_ARC_RELEASE(_headersDict);
-    SAFE_ARC_BLOCK_RELEASE(_processBlock);
-    SAFE_ARC_SUPER_DEALLOC();
+    return message;
 }
 
 #pragma mark -
@@ -82,26 +64,27 @@
 	}
     
 	// debug
-    if ([MessageCenter isDebuggingEnabled]) {
+    if ([IBMessageCenter isDebuggingEnabled]) {
         NSLog(@"OPEN URL: %@", subbedURL);
     }
 	
 	// generate request
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:subbedURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    [request setHTTPMethod:@"POST"];
     [request setAllHTTPHeaderFields:_headersDict];
-    
+    [request setHTTPBody:[_body dataUsingEncoding:NSUTF8StringEncoding]];
 	NSData *content = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
 	if (!error) {
 		_responseData = [content mutableCopy];
         
 		if (response) {
-            [self setUserInfoValue:BOX_INT(response.statusCode) forKey:HTTP_STATUS_CODE];
+            [self setUserInfoValue:IB_BOX_INT(response.statusCode) forKey:HTTP_STATUS_CODE];
             
             if (_processBlock) {
                 _processBlock(_responseData, response.statusCode);
             }
-		} else if (_processBlock) {
+        } else if (_processBlock) {
             _processBlock(_responseData, 0);
         }
 	} else {
@@ -110,7 +93,7 @@
         if (_processBlock) {
             _processBlock(_responseData, response ? response.statusCode : 0);
         }
-    }
+	}
 }
 
 - (NSData *)outputData {

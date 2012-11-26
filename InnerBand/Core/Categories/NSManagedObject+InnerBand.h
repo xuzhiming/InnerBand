@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "CoreDataStore.h"
+#import "IBCoreDataStore.h"
 
 @interface NSManagedObject (InnerBand)
 
 // CREATION
 
 + (id)create;
-+ (id)createInStore:(CoreDataStore *)store;
++ (id)createInStore:(IBCoreDataStore *)store;
 
 // QUERY
 
@@ -23,21 +23,21 @@
 + (NSArray *)allForPredicate:(NSPredicate *)predicate;
 + (NSArray *)allForPredicate:(NSPredicate *)predicate orderBy:(NSString *)key ascending:(BOOL)ascending;
 + (NSArray *)allOrderedBy:(NSString *)key ascending:(BOOL)ascending;
-+ (NSArray *)allInStore:(CoreDataStore *)store;
-+ (NSArray *)allForPredicate:(NSPredicate *)predicate inStore:(CoreDataStore *)store;
-+ (NSArray *)allForPredicate:(NSPredicate *)predicate orderBy:(NSString *)key ascending:(BOOL)ascending inStore:(CoreDataStore *)store;
-+ (NSArray *)allOrderedBy:(NSString *)key ascending:(BOOL)ascending inStore:(CoreDataStore *)store;
++ (NSArray *)allInStore:(IBCoreDataStore *)store;
++ (NSArray *)allForPredicate:(NSPredicate *)predicate inStore:(IBCoreDataStore *)store;
++ (NSArray *)allForPredicate:(NSPredicate *)predicate orderBy:(NSString *)key ascending:(BOOL)ascending inStore:(IBCoreDataStore *)store;
++ (NSArray *)allOrderedBy:(NSString *)key ascending:(BOOL)ascending inStore:(IBCoreDataStore *)store;
 
 + (id)first;
 + (id)firstWithKey:(NSString *)key value:(NSObject *)value;
 
-+ (id)firstInStore:(CoreDataStore *)store;
-+ (id)firstWithKey:(NSString *)key value:(NSObject *)value inStore:(CoreDataStore *)store;
++ (id)firstInStore:(IBCoreDataStore *)store;
++ (id)firstWithKey:(NSString *)key value:(NSObject *)value inStore:(IBCoreDataStore *)store;
 
 // DELETE/DESTROY
 
 + (void)destroyAll;
-+ (void)destroyAllInStore:(CoreDataStore *)store;
++ (void)destroyAllInStore:(IBCoreDataStore *)store;
 
 - (void)destroy;
 

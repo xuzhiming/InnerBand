@@ -1,5 +1,5 @@
 //
-//  MessageCenter.m
+//  IBMessageCenter.m
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,20 +17,19 @@
 //  limitations under the License.
 //
 
-#import "MessageCenter.h"
-#import "DispatchMessage.h"
-#import "MessageProcessor.h"
+#import "IBMessageCenter.h"
+#import "IBDispatchMessage.h"
+#import "IBMessageProcessor.h"
 #import "NSObject+InnerBand.h"
-#import "Macros.h"
-#import "ARCMacros.h"
+#import "IBMacros.h"
 #import "NSMutableArray+InnerBand.h"
-#import "TargetAction.h"
+#import "IBTargetAction.h"
 
-@interface MessageCenter (private)
+@interface IBMessageCenter (private)
 
-+ (NSMutableArray *)getTargetActionsForMessageName:(NSString *)name source:(NSObject *)source;
++ (NSMutableArray *)getTargetActionsForMessageName:(NSString *)name source:(id)source;
 + (NSMutableArray *)getTargetActionsForMessageName:(NSString *)name sourceDescription:(NSString *)sourceDescription;
-+ (void)runProcessorInThread:(DispatchMessage *)message targetActions:(NSArray *)targetActions;
++ (void)runProcessorInThread:(IBDispatchMessage *)message targetActions:(NSArray *)targetActions;
 
 @end
 
@@ -40,11 +39,11 @@ static NSMutableDictionary *_messageListeners = nil;
 // debugging
 static BOOL _debuggingEnabled = NO;
 
-static NSString *getSourceIdentifier(NSObject *obj) {
+static NSString *getSourceIdentifier(id obj) {
 	return [NSString stringWithFormat:@"%p", obj];
 }
 
-@implementation MessageCenter
+@implementation IBMessageCenter
 
 + (NSInteger)getCountOfListeningSources {
 	return [_messageListeners count];
@@ -66,17 +65,17 @@ static NSString *getSourceIdentifier(NSObject *obj) {
 
 #pragma mark -
 
-+ (void)addGlobalMessageListener:(NSString *)name target:(NSObject *)target action:(SEL)action {
-	[MessageCenter addMessageListener:name source:nil target:target action:action];
++ (void)addGlobalMessageListener:(NSString *)name target:(id)target action:(SEL)action {
+	[IBMessageCenter addMessageListener:name source:nil target:target action:action];
 }
 
-+ (void)addMessageListener:(NSString *)name source:(NSObject *)source target:(NSObject *)target action:(SEL)action {
++ (void)addMessageListener:(NSString *)name source:(id)source target:(id)target action:(SEL)action {
 	// remove existing listener (avoids duplication)
-	[MessageCenter removeMessageListener:name source:source target:target action:action];
+	[IBMessageCenter removeMessageListener:name source:source target:target action:action];
 	
 	// add listener
-	NSMutableArray *targetActions = [MessageCenter getTargetActionsForMessageName:name source:source];
-    TargetAction *targetAction = SAFE_ARC_AUTORELEASE([[TargetAction alloc] init]);
+	NSMutableArray *targetActions = [IBMessageCenter getTargetActionsForMessageName:name source:source];
+    IBTargetAction *targetAction = [[IBTargetAction alloc] init];
     
     targetAction.target = target;
     targetAction.action = NSStringFromSelector(action);
@@ -86,13 +85,13 @@ static NSString *getSourceIdentifier(NSObject *obj) {
 
 #pragma mark -
 
-+ (void)removeMessageListener:(NSString *)name source:(NSObject *)source target:(NSObject *)target action:(SEL)action {
-	NSMutableArray *targetActions = [MessageCenter getTargetActionsForMessageName:name source:source];
++ (void)removeMessageListener:(NSString *)name source:(id)source target:(id)target action:(SEL)action {
+	NSMutableArray *targetActions = [IBMessageCenter getTargetActionsForMessageName:name source:source];
 	
 	// remove all matching target/action pairs
 	for (NSInteger i = targetActions.count - 1; i >= 0; --i) {
-		TargetAction *targetAction = (TargetAction *)[targetActions objectAtIndex:i];
-		NSObject *iTarget = targetAction.target;
+		IBTargetAction *targetAction = (IBTargetAction *)[targetActions objectAtIndex:i];
+		id iTarget = targetAction.target;
 		
 		// remove if matched
 		if (iTarget == target) {
@@ -105,13 +104,13 @@ static NSString *getSourceIdentifier(NSObject *obj) {
 	}
 }
 
-+ (void)removeMessageListener:(NSString *)name source:(NSObject *)source target:(NSObject *)target {
-	NSMutableArray *targetActions = [MessageCenter getTargetActionsForMessageName:name source:source];
++ (void)removeMessageListener:(NSString *)name source:(id)source target:(id)target {
+	NSMutableArray *targetActions = [IBMessageCenter getTargetActionsForMessageName:name source:source];
 	
 	// remove all matching targets
 	for (NSInteger i = targetActions.count - 1; i >= 0; --i) {
-		TargetAction *targetAction = (TargetAction *)[targetActions objectAtIndex:i];
-		NSObject *iTarget = targetAction.target;
+		IBTargetAction *targetAction = (IBTargetAction *)[targetActions objectAtIndex:i];
+		id iTarget = targetAction.target;
 		
 		// remove if matched
 		if (iTarget == target) {
@@ -120,13 +119,13 @@ static NSString *getSourceIdentifier(NSObject *obj) {
 	}
 }
 
-+ (void)removeMessageListener:(NSString *)name target:(NSObject *)target action:(SEL)action {
++ (void)removeMessageListener:(NSString *)name target:(id)target action:(SEL)action {
 	for (NSMutableDictionary *iMessageNames in _messageListeners) {
 		for (NSMutableArray *iTargetActions in iMessageNames) {
 			// remove all matching target/action pairs
 			for (NSInteger i = iTargetActions.count - 1; i >= 0; --i) {
-                TargetAction *targetAction = (TargetAction *)[iTargetActions objectAtIndex:i];
-                NSObject *iTarget = targetAction.target;
+                IBTargetAction *targetAction = (IBTargetAction *)[iTargetActions objectAtIndex:i];
+                id iTarget = targetAction.target;
 				
 				// remove if matched
 				if (iTarget == target) {
@@ -141,7 +140,7 @@ static NSString *getSourceIdentifier(NSObject *obj) {
 	}
 }
 
-+ (void)removeMessageListenersForTarget:(NSObject *)target {
++ (void)removeMessageListenersForTarget:(id)target {
 	for (NSString *iSourceDescription in _messageListeners) {
 		NSMutableDictionary *targetActionsByName = [_messageListeners objectForKey:iSourceDescription];
 		for (NSString *iTargetActionName in targetActionsByName) {
@@ -149,8 +148,8 @@ static NSString *getSourceIdentifier(NSObject *obj) {
 			
 			// remove all matching target/action pairs
 			for (NSInteger i = iTargetActions.count - 1; i >= 0; --i) {
-                TargetAction *targetAction = (TargetAction *)[iTargetActions objectAtIndex:i];
-                NSObject *iTarget = targetAction.target;
+                IBTargetAction *targetAction = (IBTargetAction *)[iTargetActions objectAtIndex:i];
+                id iTarget = targetAction.target;
 				
 				// remove if matched
 				if (iTarget == target) {
@@ -164,16 +163,16 @@ static NSString *getSourceIdentifier(NSObject *obj) {
 #pragma mark -
 
 + (void)sendGlobalMessageNamed:(NSString *)name {
-	[MessageCenter sendMessageNamed:name forSource:nil];
+	[IBMessageCenter sendMessageNamed:name forSource:nil];
 }
 
 + (void)sendGlobalMessageNamed:(NSString *)name withUserInfo:(NSDictionary *)userInfo {
-	[MessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:nil];
+	[IBMessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:nil];
 }
 
-+ (void)sendGlobalMessageNamed:(NSString *)name withUserInfoKey:(NSObject *)key andValue:(NSObject *)value {
++ (void)sendGlobalMessageNamed:(NSString *)name withUserInfoKey:(id)key andValue:(id)value {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:value forKey:key];
-	[MessageCenter sendGlobalMessageNamed:name withUserInfo:userInfo];
+	[IBMessageCenter sendGlobalMessageNamed:name withUserInfo:userInfo];
 }
 
 + (void)sendGlobalMessageNamed:(NSString *)name withObjectsAndKeys:(id)firstObject, ... {
@@ -194,33 +193,33 @@ static NSString *getSourceIdentifier(NSObject *obj) {
         va_end(argList);        
     }
 
-    [MessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:nil ];
+    [IBMessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:nil ];
 }
 
-+ (void)sendGlobalMessage:(DispatchMessage *)message {
-	[MessageCenter sendMessage:message forSource:nil];
++ (void)sendGlobalMessage:(IBDispatchMessage *)message {
+	[IBMessageCenter sendMessage:message forSource:nil];
 }
 
-+ (void)sendMessageNamed:(NSString *)name forSource:(NSObject *)source {
-	DispatchMessage *message = [DispatchMessage messageWithName:name userInfo:nil];
++ (void)sendMessageNamed:(NSString *)name forSource:(id)source {
+	IBDispatchMessage *message = [IBDispatchMessage messageWithName:name userInfo:nil];
 	
 	// dispatch
-	[MessageCenter sendMessage:message forSource:source];
+	[IBMessageCenter sendMessage:message forSource:source];
 }
 
-+ (void)sendMessageNamed:(NSString *)name withUserInfo:(NSDictionary *)userInfo forSource:(NSObject *)source {
-	DispatchMessage *message = [DispatchMessage messageWithName:name userInfo:userInfo];
++ (void)sendMessageNamed:(NSString *)name withUserInfo:(NSDictionary *)userInfo forSource:(id)source {
+	IBDispatchMessage *message = [IBDispatchMessage messageWithName:name userInfo:userInfo];
 	
 	// dispatch
-	[MessageCenter sendMessage:message forSource:source];
+	[IBMessageCenter sendMessage:message forSource:source];
 }
 
-+ (void)sendMessageNamed:(NSString *)name withUserInfoKey:(NSObject *)key andValue:(NSObject *)value forSource:(NSObject *)source {
++ (void)sendMessageNamed:(NSString *)name withUserInfoKey:(id)key andValue:(id)value forSource:(id)source {
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:value forKey:key];
-	[MessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:source];
+	[IBMessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:source];
 }
 
-+ (void)sendMessageNamed:(NSString *)name forSource:(NSObject *)source withObjectsAndKeys:(id)firstObject, ... {
++ (void)sendMessageNamed:(NSString *)name forSource:(id)source withObjectsAndKeys:(id)firstObject, ... {
     // construct user info
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     id currentObject = nil;
@@ -240,45 +239,38 @@ static NSString *getSourceIdentifier(NSObject *obj) {
     }
 
 	// dispatch
-	[MessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:source];
+	[IBMessageCenter sendMessageNamed:name withUserInfo:userInfo forSource:source];
 }
 
-+ (void)sendMessage:(DispatchMessage *)message forSource:(NSObject *)source {
++ (void)sendMessage:(IBDispatchMessage *)message forSource:(id)source {
 	// global or local delivery only
-	NSArray *targetActions = [MessageCenter getTargetActionsForMessageName:message.name source:source];
+	NSArray *targetActions = [IBMessageCenter getTargetActionsForMessageName:message.name source:source];
 	
 	if (message.isAsynchronous) {
 		// run completely in thread
-		[MessageCenter performSelectorInBackground:@selector(runProcessorInThread:targetActions:) withObject:message withObject:targetActions];
+		[IBMessageCenter performSelectorInBackground:@selector(runProcessorInThread:targetActions:) withObject:message withObject:targetActions];
 	} else {
 		// process message in sync
-		MessageProcessor *processor = [[MessageProcessor alloc] initWithMessage:message targetActions:targetActions];
+		IBMessageProcessor *processor = [[IBMessageProcessor alloc] initWithMessage:message targetActions:targetActions];
 
 		[processor process];
-		SAFE_ARC_RELEASE(processor);
 	}
 }
 
-+ (void)runProcessorInThread:(DispatchMessage *)message targetActions:(NSArray *)targetActions {
++ (void)runProcessorInThread:(IBDispatchMessage *)message targetActions:(NSArray *)targetActions {
 	// pool
-    SAFE_ARC_AUTORELEASE_POOL_START();
-    
-	// process message
-	MessageProcessor *processor = [[MessageProcessor alloc] initWithMessage:message targetActions:targetActions];
+    @autoreleasepool {
+        // process message
+        IBMessageProcessor *processor = [[IBMessageProcessor alloc] initWithMessage:message targetActions:targetActions];
 
-	// process
-	[processor process];
-
-	// release
-	SAFE_ARC_RELEASE(processor);
-	
-	// pool
-    SAFE_ARC_AUTORELEASE_POOL_END();
+        // process
+        [processor process];
+    }
 }
 
 #pragma mark -
 
-+ (NSMutableArray *)getTargetActionsForMessageName:(NSString *)name source:(NSObject *)source {
++ (NSMutableArray *)getTargetActionsForMessageName:(NSString *)name source:(id)source {
 	// if no source given, treat as global listener (use self as key)
 	if (!source) {
 		source = [NSNull null];

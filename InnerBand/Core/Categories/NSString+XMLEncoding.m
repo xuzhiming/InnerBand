@@ -7,7 +7,6 @@
 //
 
 #import "NSString+XMLEncoding.h"
-#import "ARCMacros.h"
 
 static NSString *entityList[] = {
     @"&quot;",

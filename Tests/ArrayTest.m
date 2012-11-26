@@ -18,8 +18,8 @@
 //
 
 #import "GHUnit.h"
-#import "Macros.h"
-#import "Functions.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 #import "NSArray+InnerBand.h"
 #import "NSMutableArray+InnerBand.h"
 
@@ -47,7 +47,7 @@
 - (void)testUnretainingArray {
 	NSMutableArray *array = [NSMutableArray arrayUnretaining];
 	
-	[array addObject:BOX_INT(5)];
+	[array addObject:IB_BOX_INT(5)];
 }
 
 - (void)testStacks {
@@ -55,22 +55,22 @@
     
     GHAssertEquals(0U, array.count, nil);
 
-    [array pushObject:BOX_INT(1)];
+    [array pushObject:IB_BOX_INT(1)];
     
     GHAssertEquals(1U, array.count, nil);
-    GHAssertEquals(1, UNBOX_INT([array lastObject]), nil);
+    GHAssertEquals(1, IB_UNBOX_INT([array lastObject]), nil);
 
-    [array pushObject:BOX_INT(2)];
+    [array pushObject:IB_BOX_INT(2)];
 
     GHAssertEquals(2U, array.count, nil);
-    GHAssertEquals(2, UNBOX_INT([array lastObject]), nil);
+    GHAssertEquals(2, IB_UNBOX_INT([array lastObject]), nil);
     
-    NSInteger popped = UNBOX_INT([array popObject]);
+    NSInteger popped = IB_UNBOX_INT([array popObject]);
 
     GHAssertEquals(1U, array.count, nil);
     GHAssertEquals(2, popped, nil);
 
-    popped = UNBOX_INT([array popObject]);
+    popped = IB_UNBOX_INT([array popObject]);
     
     GHAssertEquals(0U, array.count, nil);
     GHAssertEquals(1, popped, nil);
@@ -81,22 +81,22 @@
     
     GHAssertEquals(0U, array.count, nil);
     
-    [array unshiftObject:BOX_INT(1)];
+    [array unshiftObject:IB_BOX_INT(1)];
     
     GHAssertEquals(1U, array.count, nil);
-    GHAssertEquals(1, UNBOX_INT([array firstObject]), nil);
+    GHAssertEquals(1, IB_UNBOX_INT([array firstObject]), nil);
     
-    [array unshiftObject:BOX_INT(2)];
+    [array unshiftObject:IB_BOX_INT(2)];
     
     GHAssertEquals(2U, array.count, nil);
-    GHAssertEquals(2, UNBOX_INT([array firstObject]), nil);
+    GHAssertEquals(2, IB_UNBOX_INT([array firstObject]), nil);
     
-    NSInteger shifted = UNBOX_INT([array shiftObject]);
+    NSInteger shifted = IB_UNBOX_INT([array shiftObject]);
     
     GHAssertEquals(1U, array.count, nil);
     GHAssertEquals(2, shifted, nil);
     
-    shifted = UNBOX_INT([array shiftObject]);
+    shifted = IB_UNBOX_INT([array shiftObject]);
     
     GHAssertEquals(0U, array.count, nil);
     GHAssertEquals(1, shifted, nil);
@@ -113,21 +113,21 @@
 }
 
 - (void)testDeleteIfByNumber {
-    NSMutableArray *array = [NSMutableArray arrayWithObjects:BOX_INT(1), BOX_INT(2), BOX_INT(3), BOX_INT(4), BOX_INT(5), nil];
-    NSMutableArray *oddArray = [NSMutableArray arrayWithObjects:BOX_INT(1), BOX_INT(3), BOX_INT(5), nil];
+    NSMutableArray *array = [NSMutableArray arrayWithObjects:IB_BOX_INT(1), IB_BOX_INT(2), IB_BOX_INT(3), IB_BOX_INT(4), IB_BOX_INT(5), nil];
+    NSMutableArray *oddArray = [NSMutableArray arrayWithObjects:IB_BOX_INT(1), IB_BOX_INT(3), IB_BOX_INT(5), nil];
     
     // remove the evens
-    [array deleteIf: (ib_enum_bool_t)^(id obj) { return (UNBOX_INT(obj) % 2 == 0); }];
+    [array deleteIf: (ib_enum_bool_t)^(id obj) { return (IB_UNBOX_INT(obj) % 2 == 0); }];
     
     GHAssertEqualObjects(oddArray, array, nil);
 }
 
 - (void)testMapByNumber {
-    NSArray *array = [NSMutableArray arrayWithObjects:BOX_INT(1), BOX_INT(2), BOX_INT(3), BOX_INT(4), BOX_INT(5), nil];
-    NSArray *doubledArray = [NSMutableArray arrayWithObjects:BOX_INT(2), BOX_INT(4), BOX_INT(6), BOX_INT(8), BOX_INT(10), nil];
+    NSArray *array = [NSMutableArray arrayWithObjects:IB_BOX_INT(1), IB_BOX_INT(2), IB_BOX_INT(3), IB_BOX_INT(4), IB_BOX_INT(5), nil];
+    NSArray *doubledArray = [NSMutableArray arrayWithObjects:IB_BOX_INT(2), IB_BOX_INT(4), IB_BOX_INT(6), IB_BOX_INT(8), IB_BOX_INT(10), nil];
     
     // remove the evens
-    NSArray *mappedArray = [array map: (ib_enum_id_t)^(id obj) { return BOX_INT((UNBOX_INT(obj) * 2)); }];
+    NSArray *mappedArray = [array map: (ib_enum_id_t)^(id obj) { return IB_BOX_INT((IB_UNBOX_INT(obj) * 2)); }];
     
     GHAssertEqualObjects(doubledArray, mappedArray, nil);
 }

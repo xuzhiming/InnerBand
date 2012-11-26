@@ -18,8 +18,8 @@
 //
 
 #import "GHUnit.h"
-#import "Macros.h"
-#import "Functions.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 #import "UIColor+InnerBand.h"
 
 @interface ColorTest : GHTestCase
@@ -275,17 +275,17 @@
 - (void)testBrighter {
 	UIColor *grayColor = [UIColor colorWithHexString:@"#887766"];
 	grayColor = [grayColor colorBrighterByPercent:20.0f];
-	GHAssertEqualsWithAccuracy(RGB256_TO_COL(0x88) * 1.2f, grayColor.r, 0.01, nil);
-	GHAssertEqualsWithAccuracy(RGB256_TO_COL(0x77) * 1.2f, grayColor.g, 0.01, nil);
-	GHAssertEqualsWithAccuracy(RGB256_TO_COL(0x66) * 1.2f, grayColor.b, 0.01, nil);
+	GHAssertEqualsWithAccuracy(IB_RGB256_TO_COL(0x88) * 1.2f, grayColor.r, 0.01, nil);
+	GHAssertEqualsWithAccuracy(IB_RGB256_TO_COL(0x77) * 1.2f, grayColor.g, 0.01, nil);
+	GHAssertEqualsWithAccuracy(IB_RGB256_TO_COL(0x66) * 1.2f, grayColor.b, 0.01, nil);
 }
 
 - (void)testDarker {
 	UIColor *grayColor = [UIColor colorWithHexString:@"#887766"];
 	grayColor = [grayColor colorDarkerByPercent:20.0f];
-	GHAssertEqualsWithAccuracy(RGB256_TO_COL(0x88) * 0.8f, grayColor.r, 0.01, nil);
-	GHAssertEqualsWithAccuracy(RGB256_TO_COL(0x77) * 0.8f, grayColor.g, 0.01, nil);
-	GHAssertEqualsWithAccuracy(RGB256_TO_COL(0x66) * 0.8f, grayColor.b, 0.01, nil);
+	GHAssertEqualsWithAccuracy(IB_RGB256_TO_COL(0x88) * 0.8f, grayColor.r, 0.01, nil);
+	GHAssertEqualsWithAccuracy(IB_RGB256_TO_COL(0x77) * 0.8f, grayColor.g, 0.01, nil);
+	GHAssertEqualsWithAccuracy(IB_RGB256_TO_COL(0x66) * 0.8f, grayColor.b, 0.01, nil);
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  DispatchMessage.h
+//  IBDispatchMessage.h
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -20,7 +20,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface DispatchMessage : NSObject {
+@interface IBDispatchMessage : NSObject {
     NSMutableDictionary *userInfo_;
 }
 

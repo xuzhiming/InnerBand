@@ -1,5 +1,5 @@
 //
-//  ViewUtil.m
+//  IBViewUtil.h
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,21 +17,22 @@
 //  limitations under the License.
 //
 
-#import "ViewUtil.h"
+#import <Foundation/Foundation.h>
 
 
-@implementation ViewUtil
-
-+ (id) loadInstanceOfView:(Class)clazz fromNibNamed:(NSString *)name {
-	id obj = nil;
-	NSArray *topObjects = [[NSBundle mainBundle] loadNibNamed:name owner:nil options:nil];
-	for (id currentObject in topObjects) {
-		if ([currentObject isKindOfClass:clazz]) {
-			obj = currentObject;
-			break;
-		}
-	}
-	return obj;
+@interface IBViewUtil : NSObject {
 }
+
+/**
+ This function is very handy for loading an instance of a specified class from a specified NIB
+ file.  It's sorta like UIView initWithNibName, but more general purpose.  Very useful for loading
+ UITableViewCells from NIB files, e.g.:
+ 
+ MessageCell *cell = [tableView dequeueReusableCellWithIdentifier: @"MessageCell"];
+ if (cell == nil) {
+ cell = [ViewUtil loadInstanceOfView:[MessageCell class] fromNibNamed:@"MessageCell"];
+ }
+ **/
++ (id)loadInstanceOfView:(Class)clazz fromNibNamed:(NSString *)name;
 
 @end

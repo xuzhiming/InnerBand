@@ -1,5 +1,5 @@
 //
-//  CoreDataStore.h
+//  IBCoreDataStore.h
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -20,15 +20,15 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface CoreDataStore : NSObject {
+@interface IBCoreDataStore : NSObject {
 	NSManagedObjectContext *_managedObjectContext;	
 }
 
 @property (nonatomic, readonly) NSManagedObjectContext *context;
 
-+ (CoreDataStore *)mainStore;
-+ (CoreDataStore *)createStore;
-+ (CoreDataStore *)createStoreWithContext:(NSManagedObjectContext *)context;
++ (IBCoreDataStore *)mainStore;
++ (IBCoreDataStore *)createStore;
++ (IBCoreDataStore *)createStoreWithContext:(NSManagedObjectContext *)context;
 
 - (id)initWithContext:(NSManagedObjectContext *)context;
 

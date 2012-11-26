@@ -1,5 +1,5 @@
 //
-//  ViewUtil.h
+//  IBSequencedMessage.h
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -18,21 +18,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "IBDispatchMessage.h"
 
-
-@interface ViewUtil : NSObject {
+@interface IBSequencedMessage : IBDispatchMessage {
+	NSMutableArray *_messageSequence;
+	NSData *_outputOfLastMessage;
 }
 
-/**
- This function is very handy for loading an instance of a specified class from a specified NIB
- file.  It's sorta like UIView initWithNibName, but more general purpose.  Very useful for loading
- UITableViewCells from NIB files, e.g.:
- 
- MessageCell *cell = [tableView dequeueReusableCellWithIdentifier: @"MessageCell"];
- if (cell == nil) {
- cell = [ViewUtil loadInstanceOfView:[MessageCell class] fromNibNamed:@"MessageCell"];
- }
- **/
-+ (id)loadInstanceOfView:(Class)clazz fromNibNamed:(NSString *)name;
+- (id)initWithName:(NSString *)name userInfo:(NSDictionary *)userInfo sequence:(NSArray *)messageSequence;
++ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo sequence:(NSArray *)messageSequence;
 
 @end

@@ -1,5 +1,5 @@
 //
-//  HTTPPostRequestMessage.h
+//  IBHTTPGetRequestMessage.h
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -18,21 +18,34 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DispatchMessage.h"
-#import "Types.h"
+#import "IBDispatchMessage.h"
+#import "IBTypes.h"
+
+/*
+ * 
+ * IBMessageCenter will dispatch an HTTPGetRequestMessage after it processes the URL request you provide it.
+ * When specifying a URL, you can provide substitution parameters using the syntax [MYPARAM] and
+ * then providing the values for those parameters in the userInfo dictionary.
+ *
+ * INPUT: none
+ * OUTPUT: the HTTP response data on success, nil on error
+ *
+ * USER INFO:
+ *    HTTP_STATUS_CODE - HTTP status code of result
+ *
+ */
 
 #define HTTP_STATUS_CODE @"HTTP_STATUS_CODE"
 
-@interface HTTPPostRequestMessage : DispatchMessage {
+@interface IBHTTPGetRequestMessage : IBDispatchMessage {
 	NSString *_url;
-    NSString *_body;
 	NSMutableData *_responseData;
 	NSMutableDictionary *_headersDict;
     ib_http_proc_t _processBlock;
 }
 
-+ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url body:(NSString *)body;
-+ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url body:(NSString *)body processBlock:(ib_http_proc_t)processBlock;
++ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url;
++ (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo url:(NSString *)url processBlock:(ib_http_proc_t)processBlock;
 
 - (void)addHeaderValue:(NSString *)value forKey:(NSString *)key;
 

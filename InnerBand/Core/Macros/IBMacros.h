@@ -17,17 +17,6 @@
 //  limitations under the License.
 //
 
-// MEMORY
-
-#if __has_feature(objc_arc)
-    #define SAFE_RELEASE(obj) 
-    #define SAFE_TIMER_RELEASE(obj) 
-#else
-    #define SAFE_RELEASE(obj) ([obj release], obj = nil)
-    #define SAFE_TIMER_RELEASE(obj) ([obj invalidate], [obj release], obj = nil)
-#endif
-
 // SELECTORS
 
-#define SEL(x) @selector(x)
 #define L(key) (NSLocalizedString((key), nil))

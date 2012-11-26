@@ -18,8 +18,8 @@
 //
 
 #import "Widget.h"
-#import "MessageCenter.h"
-#import "DispatchMessage.h"
+#import "IBMessageCenter.h"
+#import "IBDispatchMessage.h"
 
 @implementation Widget
 
@@ -29,19 +29,19 @@
 
 - (void)fireAlpha {
 	// dispatch
-	[MessageCenter sendMessageNamed:ALPHA_MSG forSource:self];
+	[IBMessageCenter sendMessageNamed:ALPHA_MSG forSource:self];
 }
 
 - (void)fireGlobalAlpha {
 	// dispatch
-	[MessageCenter sendMessageNamed:ALPHA_MSG forSource:nil];
+	[IBMessageCenter sendMessageNamed:ALPHA_MSG forSource:nil];
 }
 
 - (void)fireBeta {
-	DispatchMessage *message = [DispatchMessage messageWithName:BETA_MSG userInfo:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"WORKS"]];
+	IBDispatchMessage *message = [IBDispatchMessage messageWithName:BETA_MSG userInfo:[NSDictionary dictionaryWithObject:[NSNull null] forKey:@"WORKS"]];
 	
 	// dispatch
-	[MessageCenter sendMessage:message forSource:self];
+	[IBMessageCenter sendMessage:message forSource:self];
 }
 
 @end

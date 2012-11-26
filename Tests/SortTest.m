@@ -19,8 +19,8 @@
 
 #import "GHUnit.h"
 #import "NSArray+InnerBand.h"
-#import "Macros.h"
-#import "Functions.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 
 @interface SortTest : GHTestCase
 @end
@@ -57,8 +57,8 @@
 	NSArray *sortedAccentedUndiacriticStrings = [NSArray arrayWithObjects:@"\u00c1lejandro", @"Ålexa", @"Alpha", @"Bartimaeus", @"James", @"Zach", @"\u1E07illy", nil];
 	NSArray *sortedAccentedUndiacriticUncasedStrings = [NSArray arrayWithObjects:@"\u00c1lejandro", @"Ålexa", @"Alpha", @"Bartimaeus", @"\u1E07illy", @"James", @"Zach", nil];
 
-	NSArray *unsortedNumbers = [NSArray arrayWithObjects:BOX_INT(5), BOX_INT(20), BOX_INT(2), BOX_INT(1), BOX_INT(17), nil];
-	NSArray *sortedNumbers = [NSArray arrayWithObjects:BOX_INT(1), BOX_INT(2), BOX_INT(5), BOX_INT(17), BOX_INT(20), nil];
+	NSArray *unsortedNumbers = [NSArray arrayWithObjects:IB_BOX_INT(5), IB_BOX_INT(20), IB_BOX_INT(2), IB_BOX_INT(1), IB_BOX_INT(17), nil];
+	NSArray *sortedNumbers = [NSArray arrayWithObjects:IB_BOX_INT(1), IB_BOX_INT(2), IB_BOX_INT(5), IB_BOX_INT(17), IB_BOX_INT(20), nil];
 
 	GHAssertEqualObjects(sortedStrings, [unsortedStrings sortedArray], nil);
 	GHAssertEqualObjects(sortedStrings, [unsortedStrings sortedArrayAsCaseInsensitive], nil);

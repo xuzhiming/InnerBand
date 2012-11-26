@@ -18,7 +18,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Types.h"
+#import "IBTypes.h"
 
 @interface NSArray (InnerBand)
 

@@ -1,5 +1,5 @@
 //
-//  SequencedMessage.m
+//  IBSequencedMessage.m
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,10 +17,9 @@
 //  limitations under the License.
 //
 
-#import "SequencedMessage.h"
-#import "ARCMacros.h"
+#import "IBSequencedMessage.h"
 
-@implementation SequencedMessage
+@implementation IBSequencedMessage
 
 - (id)initWithName:(NSString *)name userInfo:(NSDictionary *)userInfo sequence:(NSArray *)messageSequence {
 	self = [super initWithName:name userInfo:userInfo];
@@ -29,7 +28,7 @@
 		_messageSequence = [messageSequence mutableCopy];
 
 		// if any message in the sequence is asynchronous, the whole thing is asynchronous
-		for (DispatchMessage *iMessage in _messageSequence) {
+		for (IBDispatchMessage *iMessage in _messageSequence) {
 			if (iMessage.isAsynchronous) {
 				self.asynchronous = YES;
 				break;
@@ -41,16 +40,9 @@
 }
 
 + (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo sequence:(NSArray *)messageSequence {
-	SequencedMessage *message = [[SequencedMessage alloc] initWithName:name userInfo:userInfo sequence:messageSequence];
+	IBSequencedMessage *message = [[IBSequencedMessage alloc] initWithName:name userInfo:userInfo sequence:messageSequence];
 
-	// autorelease
-    return SAFE_ARC_AUTORELEASE(message);
-}
-
-- (void)dealloc {
-    SAFE_ARC_RELEASE(_messageSequence);
-    SAFE_ARC_RELEASE(_outputOfLastMessage);
-    SAFE_ARC_SUPER_DEALLOC();
+    return message;
 }
 
 #pragma mark -
@@ -59,15 +51,12 @@
 	_outputOfLastMessage = nil;
 
 	// process each message in sequence
-	for (DispatchMessage *iMessage in _messageSequence) {
+	for (IBDispatchMessage *iMessage in _messageSequence) {
 		// process
 		[iMessage inputData:_outputOfLastMessage];
 
-		// release
-        SAFE_ARC_RELEASE(_outputOfLastMessage);
-		
 		// gather output
-        _outputOfLastMessage = SAFE_ARC_RETAIN([iMessage outputData]);
+        _outputOfLastMessage = [iMessage outputData];
 	}
 }           
 

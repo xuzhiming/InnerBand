@@ -1,5 +1,5 @@
 //
-//  BlockBasedDispatchMessage.h
+//  IBBlockBasedDispatchMessage.h
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,9 +17,9 @@
 //  limitations under the License.
 //
 
-#import "DispatchMessage.h"
+#import "IBDispatchMessage.h"
 
-@interface BlockBasedDispatchMessage : DispatchMessage {
+@interface IBBlockBasedDispatchMessage : IBDispatchMessage {
     void (^inputBlock_)(NSData *);
     NSData *(^outputBlock_)(void);
 }

@@ -18,8 +18,8 @@
 //
 
 #import "GHUnit.h"
-#import "Macros.h"
-#import "Functions.h"
+#import "IBMacros.h"
+#import "IBFunctions.h"
 #import "NSString+InnerBand.h"
 #import "NSMutableString+InnerBand.h"
 #import "NSString+XMLEncoding.h"
@@ -48,32 +48,32 @@
 - (void)testEmptyStrings {
 	BOOL isEmpty;
 	
-	isEmpty = IS_EMPTY_STRING((NSString *)nil);
+	isEmpty = IB_IS_EMPTY_STRING((NSString *)nil);
 	GHAssertTrue(isEmpty, nil);
 
-	isEmpty = IS_EMPTY_STRING(@"");
+	isEmpty = IB_IS_EMPTY_STRING(@"");
 	GHAssertTrue(isEmpty, nil);
 
-	isEmpty = IS_EMPTY_STRING(@"X");
+	isEmpty = IB_IS_EMPTY_STRING(@"X");
 	GHAssertFalse(isEmpty, nil);
 
-	isEmpty = IS_EMPTY_STRING([NSDictionary dictionary]);
+	isEmpty = IB_IS_EMPTY_STRING([NSDictionary dictionary]);
 	GHAssertTrue(isEmpty, nil);
 }
 
 - (void)testPopulatedStrings {
 	BOOL isPopulated;
 	
-	isPopulated = IS_POPULATED_STRING((NSString *)nil);
+	isPopulated = IB_IS_POPULATED_STRING((NSString *)nil);
 	GHAssertFalse(isPopulated, nil);
 	
-	isPopulated = IS_POPULATED_STRING(@"");
+	isPopulated = IB_IS_POPULATED_STRING(@"");
 	GHAssertFalse(isPopulated, nil);
 	
-	isPopulated = IS_POPULATED_STRING(@"X");
+	isPopulated = IB_IS_POPULATED_STRING(@"X");
 	GHAssertTrue(isPopulated, nil);
 	
-	isPopulated = IS_POPULATED_STRING([NSDictionary dictionary]);
+	isPopulated = IB_IS_POPULATED_STRING([NSDictionary dictionary]);
 	GHAssertFalse(isPopulated, nil);
 }
 

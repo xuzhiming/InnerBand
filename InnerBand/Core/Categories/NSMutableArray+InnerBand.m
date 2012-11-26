@@ -19,7 +19,6 @@
 
 #import "NSMutableArray+InnerBand.h"
 #import "NSString+InnerBand.h"
-#import "ARCMacros.h"
 
 // no-ops
 static const void* IBRetainNoOp(CFAllocatorRef allocator, const void *value) { return value; }
@@ -58,7 +57,7 @@ static void IBReleaseNoOp(CFAllocatorRef allocator, const void *value) { }
 }
 
 - (id)popObject {
-    id pop = SAFE_ARC_AUTORELEASE(SAFE_ARC_RETAIN([self lastObject]));
+    id pop = [self lastObject];
 
     [self removeLastObject];
 
@@ -67,7 +66,7 @@ static void IBReleaseNoOp(CFAllocatorRef allocator, const void *value) { }
 
 - (id)shiftObject {
     if (self.count > 0) {
-        id shft = SAFE_ARC_AUTORELEASE(SAFE_ARC_RETAIN([self objectAtIndex:0]));
+        id shft = [self objectAtIndex:0];
 
         [self removeObjectAtIndex:0];
         return shft;

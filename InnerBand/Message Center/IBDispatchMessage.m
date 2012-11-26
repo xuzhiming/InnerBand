@@ -1,5 +1,5 @@
 //
-//  DispatchMessage.m
+//  IBDispatchMessage.m
 //  InnerBand
 //
 //  InnerBand - The iOS Booster!
@@ -17,12 +17,11 @@
 //  limitations under the License.
 //
 
-#import "DispatchMessage.h"
-#import "MessageCenter.h"
-#import "Macros.h"
-#import "ARCMacros.h"
+#import "IBDispatchMessage.h"
+#import "IBMessageCenter.h"
+#import "IBMacros.h"
 
-@implementation DispatchMessage
+@implementation IBDispatchMessage
 
 @synthesize asynchronous = asynchronous_;
 @synthesize name = name_;
@@ -98,29 +97,23 @@
         va_end(argList);        
     }
 
-	DispatchMessage *message = [[DispatchMessage alloc] initWithName:name userInfo:userInfo];
+	IBDispatchMessage *message = [[IBDispatchMessage alloc] initWithName:name userInfo:userInfo];
     
     va_end(argList);
     
-    return SAFE_ARC_AUTORELEASE(message);
+    return message;
 }
 
 + (id)messageWithName:(NSString *)name userInfo:(NSDictionary *)userInfo {
-	DispatchMessage *message = [[DispatchMessage alloc] initWithName:name userInfo:userInfo];
+	IBDispatchMessage *message = [[IBDispatchMessage alloc] initWithName:name userInfo:userInfo];
 
-    return SAFE_ARC_AUTORELEASE(message);
-}
-
-- (void)dealloc {
-    SAFE_ARC_RELEASE(name_);
-    SAFE_ARC_RELEASE(userInfo_);
-    SAFE_ARC_SUPER_DEALLOC();
+    return message;
 }
 
 #pragma mark -
 
 - (NSDictionary *)userInfo {
-    return SAFE_ARC_AUTORELEASE([userInfo_ copy]);
+    return [userInfo_ copy];
 }
 
 - (void)setUserInfoValue:(id)value forKey:(NSString *)key {

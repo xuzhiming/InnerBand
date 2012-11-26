@@ -36,8 +36,13 @@
 @property (nonatomic, readonly) NSInteger minute;
 @property (nonatomic, readonly) NSInteger second;
 
-+ (NSDate *)dateDaysAgo:(NSInteger)numDays;
-+ (NSDate *)dateWeeksAgo:(NSInteger)numWeeks;
+- (NSDate *)dateByAddingSeconds:(NSInteger)numSeconds;
+- (NSDate *)dateByAddingMinutes:(NSInteger)numMinutes;
+- (NSDate *)dateByAddingHours:(NSInteger)numHours;
+- (NSDate *)dateByAddingDays:(NSInteger)numDays;
+- (NSDate *)dateByAddingWeeks:(NSInteger)numWeeks;
+- (NSDate *)dateByAddingMonths:(NSInteger)numMonths;
+- (NSDate *)dateByAddingYears:(NSInteger)numYears;
 
 - (NSString *)formattedDateStyle:(NSDateFormatterStyle)dateStyle;
 - (NSString *)formattedTimeStyle:(NSDateFormatterStyle)timeStyle;
