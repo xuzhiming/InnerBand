@@ -29,6 +29,10 @@
     return [[IBAlertView alloc] initWithTitle:title message:message dismissTitle:dismissTitle okTitle:okTitle dismissBlock:dismissBlock okBlock:okBlock];
 }
 
++ (void)showDismissWithTitle:(NSString *)title message:(NSString *)message {
+    [self showDismissWithTitle:title message:message dismissBlock:nil];
+}
+
 + (void)showDismissWithTitle:(NSString *)title message:(NSString *)message dismissBlock:(void (^)(void))dismissBlock {
     [[IBAlertView alertWithTitle:title message:message dismissTitle:NSLocalizedString(@"Dismiss", nil) okTitle:nil dismissBlock:dismissBlock okBlock:nil] show];
 }
