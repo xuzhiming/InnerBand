@@ -54,25 +54,25 @@ Heck, since this case is so common, you can even write it as:
     }];
 </pre>    
 
-Simple enough? :-)
+Simple enough? :-)  There's also an IBActionSheet, too!
 	
 ## The Message Center ##
 	
 The Message Center improves upon NSNotificationCenter in every way.  A compact, essentially
 simple system if you want it to be, the Message Center also goes way beyond if you allow it.
 	
-Passing notifications (DispatchMessage) lets you alert components to 
+Passing notifications (IBDispatchMessage) lets you alert components to 
 significant events in your application with a clean API:
 
-<pre>[MessageCenter sendGlobalMessageNamed:COOKIES_ARE_READY];
+<pre>[IBMessageCenter sendGlobalMessageNamed:COOKIES_ARE_READY];
 </pre>	
 
 Packaging data with the notification is just as easy:
 
-<pre>[MessageCenter sendGlobalMessageNamed:COOKIE_READY withUserInfoKey:@"cookie" andValue:cookie];
+<pre>[IBMessageCenter sendGlobalMessageNamed:COOKIE_READY withUserInfoKey:@"cookie" andValue:cookie];
 </pre>	
 
-But, DispatchMessage is even more powerful than that.  Each message
+But, IBDispatchMessage is even more powerful than that.  Each message
 can support internal execution that allows you to run code
 before the dispatch is made.  For example, you can create a
 HTTPGetRequestMessage with a URL (and optional parameters) and
@@ -81,10 +81,10 @@ be made and only when it's complete will the message be
 dispatched.  The listeners will all have access to the output
 when they receive it!
 	
-And we can go further than that.  A DispatchMessage object can be sequenced
-within a SequencedMessage, chaining all of their inputs and outputs with each other so
+And we can go further than that.  An IBDispatchMessage object can be sequenced
+within a IBSequencedMessage, chaining all of their inputs and outputs with each other so
 that when all execution is complete the final output is dispatched.  Chain the
-HTTPGetRequestMessage with your JSONMessage so that all listeners get the JSON
+IBHTTPGetRequestMessage with your JSONMessage so that all listeners get the JSON
 structure once the request is completed and parsed!
 	
 ## Core Data ##
@@ -98,7 +98,7 @@ Start a project as normal -- and don't select the Core Data checkbox so none of 
 nasty code is added to your project. Import InnerBand
 and now Core Data is ready to go!  Just go and create a new Core Data Model.
 	
-CoreDataStore provides methods for you to use to access data easily without leaving
+IBCoreDataStore provides methods for you to use to access data easily without leaving
 that sloppy code lying around.  Methods such as allForEntity, entityByName,
 removeEntity, removeAllEntitiesByName and (my personal favorite) clearAllData make
 using Core Data the pleasure that it was supposed to be! But it gets even easier...
@@ -109,9 +109,9 @@ For example, if you generated a CoreData class called Widget, you can now call
 way to go because it's compiler-checkable, but it does require that you generate
 the classes with the same name as the entities.
 	
-And now, it's also thread-safe!  Create a private CoreDataStore on your thread with
-[CoreDataStore createStore].  If you're on the main thread, you can access the
-singleton with [CoreDataStore mainStore].  Remember, your NSManagedObject classes
+And now, it's also thread-safe!  Create a private IBCoreDataStore on your thread with
+[IBCoreDataStore createStore].  If you're on the main thread, you can access the
+singleton with [IBCoreDataStore mainStore].  Remember, your NSManagedObject classes
 cannot be passed between threads!
 	
 ## Categories ##
@@ -140,23 +140,17 @@ properties like myDate.utcHour and myDate.utcDay.
 
 There's so much more, too!  Check out the unit tests and find your favorites...
 	
-## Macros ##
+## Functions ##
 
-Macros are a huge time saver!  InnerBand contains so many to choose from!
+Functions are a huge time saver!  InnerBand contains so many to choose from!
 	
-Box up a primitive integer into an NSNumber to store in an array with BOX_INT(5).
-Unbox it back with UNBOX_INT(myNumber).
-
-If you're not yet using ARC, free up memory cleanly with SAFE_RELEASE(myObject).
-Re-assign memory with myObject = SAFE_ASSIGN(myObject, anotherObject).
+Box up a primitive integer into an NSNumber to store in an array with IB_BOX_INT(5).
+Unbox it back with IB_UNBOX_INT(myNumber).
 	
-Alter rectangles with RECT_INSET_BY_LEFT_TOP_RIGHT_BOTTOM(myRect, 50, 10, 5, 10).
-Replace @selector(mySelector:) with the simpler SEL(mySelector:)
+Alter rectangles with IB_RECT_INSET_BY_LEFT_TOP_RIGHT_BOTTOM(myRect, 50, 10, 5, 10).
 	
-Validate your strings with IS_EMPTY_STRING(myStringOrObject) and
-IS_POPULATED_STRING(myStringOrObject.)
-	
-Do some quick debugging with NSLog(RECT_TO_STR(myRect)).
+Validate your strings with IB_IS_EMPTY_STRING(myStringOrObject) and
+IB_IS_POPULATED_STRING(myStringOrObject.)
 	
 And, again, so much more...
 	
@@ -203,9 +197,9 @@ Minified source is a brand new approach, borrowed from the JavaScript world, and
 
 6. Done!
 
-# A note about ARC support
+# ARC isn't just supported, it's required!
 
-InnerBand supports ARC.  In fact, it does so without a branch.  The code automatically detects if ARC is being used in your project and compiles accordingly.  You are free to use any version of LLVM or gcc as well! (Though you should be using LLVM by now.)
+InnerBand supports ARC.  In fact, it only supports ARC.  If you're still running a project that doesn't use ARC, InnerBand won't be your cup of tea.
 
 # Unit tests as documentation #
 
