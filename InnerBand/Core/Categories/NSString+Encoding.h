@@ -1,5 +1,5 @@
 //
-//  NSString+XMLEncoding.h
+//  NSString+Encoding.h
 //  InnerBand
 //
 //  Created by John Blanco on 3/22/12.
@@ -18,7 +18,9 @@ typedef enum {
     kGTMXMLCharModeInvalid     = 100,
 } IBXMLCharMode;
 
-@interface NSString (XMLEncoding)
+@interface NSString (Encoding)
+
+- (NSString *)stringWithURLEncodingUsingEncoding:(NSStringEncoding)encoding;
 
 - (NSString *)stringWithXMLSanitizingAndEscaping;
 - (NSString *)stringWithXMLSanitizing;

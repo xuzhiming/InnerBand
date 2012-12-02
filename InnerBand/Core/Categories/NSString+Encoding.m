@@ -1,12 +1,12 @@
 //
-//  NSString+XMLEncoding.m
+//  NSString+Encoding.m
 //  InnerBand
 //
 //  Created by John Blanco on 3/22/12.
 //  Copyright (c) 2012 Rapture In Venice. All rights reserved.
 //
 
-#import "NSString+XMLEncoding.h"
+#import "NSString+Encoding.h"
 
 static NSString *entityList[] = {
     @"&quot;",
@@ -125,7 +125,11 @@ static NSString *AutoreleasedCloneForXML(NSString *src, BOOL escaping) {
     return finalString;
 }
 
-@implementation NSString (XMLEncoding)
+@implementation NSString (Encoding)
+
+- (NSString *)stringWithURLEncodingUsingEncoding:(NSStringEncoding)encoding {
+	return (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", CFStringConvertNSStringEncodingToEncoding(encoding));
+}
 
 - (NSString *)stringWithXMLSanitizingAndEscaping {
     return AutoreleasedCloneForXML(self, YES);

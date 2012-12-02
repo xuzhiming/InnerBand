@@ -22,7 +22,7 @@
 #import "IBFunctions.h"
 #import "NSString+InnerBand.h"
 #import "NSMutableString+InnerBand.h"
-#import "NSString+XMLEncoding.h"
+#import "NSString+Encoding.h"
 
 @interface StringTest : GHTestCase
 @end
@@ -121,6 +121,13 @@
     [str trim];
     
     GHAssertEqualObjects(@"A", str, nil);
+}
+
+- (void)testURLEncoding {
+    GHAssertEqualObjects(@"", [@"" stringWithURLEncodingUsingEncoding:NSUTF8StringEncoding], nil);
+    GHAssertEqualObjects(@"%20", [@" " stringWithURLEncodingUsingEncoding:NSUTF8StringEncoding], nil);
+    GHAssertEqualObjects(@"a", [@"a" stringWithURLEncodingUsingEncoding:NSUTF8StringEncoding], nil);
+    GHAssertEqualObjects(@"hell%20%26%20high%20water", [@"hell & high water" stringWithURLEncodingUsingEncoding:NSUTF8StringEncoding], nil);
 }
 
 - (void)testXMLEncoding {
