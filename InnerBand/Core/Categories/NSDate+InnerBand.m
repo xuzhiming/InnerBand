@@ -25,49 +25,46 @@
 
 - (NSDate *)dateByAddingSeconds:(NSInteger)numSeconds {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
     [_datecomp setSecond:[_datecomp minute] + numSeconds];
     return [_calendar dateFromComponents:_datecomp];
 }
 
 - (NSDate *)dateByAddingMinutes:(NSInteger)numMinutes {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
     [_datecomp setMinute:[_datecomp minute] + numMinutes];
     return [_calendar dateFromComponents:_datecomp];
 }
 
 - (NSDate *)dateByAddingHours:(NSInteger)numHours {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
     [_datecomp setHour:[_datecomp hour] + numHours];
     return [_calendar dateFromComponents:_datecomp];
 }
 
 - (NSDate *)dateByAddingDays:(NSInteger)numDays {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
     [_datecomp setDay:[_datecomp day] + numDays];
     return [_calendar dateFromComponents:_datecomp];
 }
 
 - (NSDate *)dateByAddingWeeks:(NSInteger)numWeeks {
-    NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
-    [_datecomp setWeek:[_datecomp week] + numWeeks];
-    return [_calendar dateFromComponents:_datecomp];
+    return [self dateByAddingDays:DAYS_IN_WEEK * 2];
 }
 
 - (NSDate *)dateByAddingMonths:(NSInteger)numMonths {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
     [_datecomp setMonth:[_datecomp month] + numMonths];
     return [_calendar dateFromComponents:_datecomp];
 }
 
 - (NSDate *)dateByAddingYears:(NSInteger)numYears {
     NSCalendar *_calendar = [NSCalendar currentCalendar];
-    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
+    NSDateComponents *_datecomp = [_calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSWeekCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate:self];
     [_datecomp setYear:[_datecomp year] + numYears];
     return [_calendar dateFromComponents:_datecomp];
 }
