@@ -117,6 +117,10 @@
 }
 
 - (void)setUserInfoValue:(id)value forKey:(NSString *)key {
+    if (!userInfo_) {
+        userInfo_ = [NSMutableDictionary dictionary];
+    }
+
     [userInfo_ setValue:value forKey:key];
 }
 
