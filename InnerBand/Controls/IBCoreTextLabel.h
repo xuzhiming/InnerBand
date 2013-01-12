@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
+__attribute__((deprecated))
 @interface IBCoreTextLabel : UIControl {
 	UIColor *_textColor;
 	
