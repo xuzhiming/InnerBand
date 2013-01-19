@@ -199,7 +199,7 @@ static IBCoreDataStore *gMainStoreInstance;
 	return nil;
 }
 
-- (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(NSObject *)value error:(NSError **)error {
+- (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(id)value error:(NSError **)error {
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", key, value];
 	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
 

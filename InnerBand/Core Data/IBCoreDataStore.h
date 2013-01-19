@@ -68,7 +68,7 @@
 - (NSManagedObject *)entityByName:(NSString *)entityName error:(NSError **)error;
 
 /* Returns a single entity with the specified key/value. */
-- (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(NSObject *)value error:(NSError **)error;
+- (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(id)value error:(NSError **)error;
 
 // TODO: Change key to attribute and make Class versions
 

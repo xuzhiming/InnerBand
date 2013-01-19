@@ -62,7 +62,7 @@
     return [self firstInStore:[IBCoreDataStore mainStore]];
 }
 
-+ (id)firstWithKey:(NSString *)key value:(NSObject *)value {
++ (id)firstWithKey:(NSString *)key value:(id)value {
     return [self firstWithKey:key value:value inStore:[IBCoreDataStore mainStore]];
 }
 
@@ -71,7 +71,7 @@
     return [store entityByName:NSStringFromClass(self.class) error:&error];    
 }
 
-+ (id)firstWithKey:(NSString *)key value:(NSObject *)value inStore:(IBCoreDataStore *)store {
++ (id)firstWithKey:(NSString *)key value:(id)value inStore:(IBCoreDataStore *)store {
     NSError *error = nil;
     return [store entityByName:NSStringFromClass(self.class) key:key value:value error:&error];    
 }

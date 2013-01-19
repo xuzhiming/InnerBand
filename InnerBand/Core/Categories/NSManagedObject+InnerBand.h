@@ -29,10 +29,10 @@
 + (NSArray *)allOrderedBy:(NSString *)key ascending:(BOOL)ascending inStore:(IBCoreDataStore *)store;
 
 + (id)first;
-+ (id)firstWithKey:(NSString *)key value:(NSObject *)value;
++ (id)firstWithKey:(NSString *)key value:(id)value;
 
 + (id)firstInStore:(IBCoreDataStore *)store;
-+ (id)firstWithKey:(NSString *)key value:(NSObject *)value inStore:(IBCoreDataStore *)store;
++ (id)firstWithKey:(NSString *)key value:(id)value inStore:(IBCoreDataStore *)store;
 
 // DELETE/DESTROY
 
