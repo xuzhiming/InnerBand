@@ -18,7 +18,6 @@
 //
 
 #import "UIColor+InnerBand.h"
-#import "IBMacros.h"
 #import "IBFunctions.h"
 
 // constants

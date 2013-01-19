@@ -64,7 +64,6 @@
 
 #pragma mark -
 
-
 - (NSArray *)map:(ib_enum_id_t)blk {
     NSMutableArray *mappedArray = [NSMutableArray array];
     
@@ -72,6 +71,16 @@
         [mappedArray unshiftObject:blk([self objectAtIndex:i])];
     }
     
+    return mappedArray;
+}
+
+- (NSArray *)mapWithIndex:(ib_enum_id_int_t)blk {
+    NSMutableArray *mappedArray = [NSMutableArray array];
+
+    for (NSInteger i = (self.count - 1); i >= 0; --i) {
+        [mappedArray unshiftObject:blk([self objectAtIndex:i], i)];
+    }
+
     return mappedArray;
 }
 

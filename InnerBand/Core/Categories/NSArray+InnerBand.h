@@ -33,5 +33,6 @@
 - (id)firstObject;
 
 - (NSArray *)map:(ib_enum_id_t)blk;
+- (NSArray *)mapWithIndex:(ib_enum_id_int_t)blk;
 
 @end
