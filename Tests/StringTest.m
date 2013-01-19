@@ -18,7 +18,6 @@
 //
 
 #import "GHUnit.h"
-#import "IBMacros.h"
 #import "IBFunctions.h"
 #import "NSString+InnerBand.h"
 #import "NSMutableString+InnerBand.h"

@@ -21,7 +21,6 @@
 #import "IBDispatchMessage.h"
 #import "IBMessageProcessor.h"
 #import "NSObject+InnerBand.h"
-#import "IBMacros.h"
 #import "NSMutableArray+InnerBand.h"
 #import "IBTargetAction.h"
 

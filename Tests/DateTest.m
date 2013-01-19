@@ -18,7 +18,6 @@
 //
 
 #import "GHUnit.h"
-#import "IBMacros.h"
 #import "NSDate+InnerBand.h"
 #import "IBConstants.h"
 

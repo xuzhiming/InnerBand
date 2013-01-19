@@ -19,7 +19,6 @@
 
 
 #import "GHUnit.h"
-#import "IBMacros.h"
 #import "IBFunctions.h"
 #import "NSMutableArray+InnerBand.h"
 #import "IBCoreDataStore.h"

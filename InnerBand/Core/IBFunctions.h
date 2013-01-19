@@ -109,3 +109,6 @@ void IB_DISPATCH_TO_QUEUE(dispatch_queue_t queue, BOOL isAsync, void (^block)())
 void IB_DISPATCH_TO_MAIN_QUEUE_AFTER(NSTimeInterval delay, void (^block)());
 void IB_DISPATCH_TO_GLOBAL_QUEUE_AFTER(NSTimeInterval delay, dispatch_queue_priority_t priority, void (^block)());
 void IB_DISPATCH_TO_QUEUE_AFTER(NSTimeInterval delay, dispatch_queue_t queue, void (^block)());
+
+// localization
+NSString *L(NSString *key);

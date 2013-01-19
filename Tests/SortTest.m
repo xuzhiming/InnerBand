@@ -19,7 +19,6 @@
 
 #import "GHUnit.h"
 #import "NSArray+InnerBand.h"
-#import "IBMacros.h"
 #import "IBFunctions.h"
 
 @interface SortTest : GHTestCase

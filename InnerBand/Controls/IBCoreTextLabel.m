@@ -8,7 +8,6 @@
 
 #import "IBCoreTextLabel.h"
 #import <CoreText/CoreText.h>
-#import "IBMacros.h"
 #import "IBFunctions.h"
 #import "UIColor+InnerBand.h"
 

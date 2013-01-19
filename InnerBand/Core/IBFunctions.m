@@ -189,3 +189,7 @@ void IB_DISPATCH_TO_QUEUE_AFTER(NSTimeInterval delay, dispatch_queue_t queue, vo
     dispatch_time_t runTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
     dispatch_after(runTime, queue, block);
 }
+
+NSString *L(NSString *key) {
+    return [[NSBundle mainBundle] localizedStringForKey:key value:@"" table:nil];
+}

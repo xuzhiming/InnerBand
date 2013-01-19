@@ -18,7 +18,6 @@
 //
 
 #import "IBCoreDataStore.h"
-#import "IBMacros.h"
 #import "IBFunctions.h"
 
 // global Core Data objects

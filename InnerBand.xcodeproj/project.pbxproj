@@ -47,7 +47,6 @@
 		02B9622E14C51327006A4F8E /* IBFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 02B961F014C51327006A4F8E /* IBFunctions.h */; };
 		02B9622F14C51327006A4F8E /* IBFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B961F114C51327006A4F8E /* IBFunctions.m */; };
 		02B9623014C51327006A4F8E /* IBConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 02B961F314C51327006A4F8E /* IBConstants.h */; };
-		02B9623114C51327006A4F8E /* IBMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 02B961F414C51327006A4F8E /* IBMacros.h */; };
 		02B9623214C51327006A4F8E /* IBTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 02B961F514C51327006A4F8E /* IBTypes.h */; };
 		02B9623314C51327006A4F8E /* IBViewUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 02B961F714C51327006A4F8E /* IBViewUtil.h */; };
 		02B9623414C51327006A4F8E /* IBViewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B961F814C51327006A4F8E /* IBViewUtil.m */; };
@@ -81,7 +80,6 @@
 		FF3935CD1220AA260048310B /* InnerBand_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = FF3935CC1220AA260048310B /* InnerBand_Prefix.pch */; };
 		FF4484E41225A5630066E827 /* CoreDataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4484E31225A5630066E827 /* CoreDataTest.m */; };
 		FF4485C41225B1B70066E827 /* TestableDataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = FF4485C31225B1B70066E827 /* TestableDataModel.xcdatamodel */; };
-		FF6902D212197E6700EC7D37 /* MacroTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6902D112197E6700EC7D37 /* MacroTest.m */; };
 		FF6903711219899100EC7D37 /* StringTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FF69035A121986FE00EC7D37 /* StringTest.m */; };
 		FF9EA5A8121AC6C4002F8A31 /* SortTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA5A7121AC6C4002F8A31 /* SortTest.m */; };
 		FFBDC97A125251A400C6AD94 /* libGHUnitIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FFBDC979125251A400C6AD94 /* libGHUnitIOS.a */; };
@@ -146,7 +144,6 @@
 		02B961F014C51327006A4F8E /* IBFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBFunctions.h; sourceTree = "<group>"; };
 		02B961F114C51327006A4F8E /* IBFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBFunctions.m; sourceTree = "<group>"; };
 		02B961F314C51327006A4F8E /* IBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBConstants.h; sourceTree = "<group>"; };
-		02B961F414C51327006A4F8E /* IBMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBMacros.h; sourceTree = "<group>"; };
 		02B961F514C51327006A4F8E /* IBTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBTypes.h; sourceTree = "<group>"; };
 		02B961F714C51327006A4F8E /* IBViewUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBViewUtil.h; sourceTree = "<group>"; };
 		02B961F814C51327006A4F8E /* IBViewUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBViewUtil.m; sourceTree = "<group>"; };
@@ -184,7 +181,6 @@
 		FF4484E31225A5630066E827 /* CoreDataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTest.m; sourceTree = "<group>"; };
 		FF4485C31225B1B70066E827 /* TestableDataModel.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = TestableDataModel.xcdatamodel; sourceTree = "<group>"; };
 		FF4486681225B8B20066E827 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		FF6902D112197E6700EC7D37 /* MacroTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroTest.m; sourceTree = "<group>"; };
 		FF69035A121986FE00EC7D37 /* StringTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringTest.m; sourceTree = "<group>"; };
 		FF9964E9122AF2FD0001CA66 /* DateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTest.m; sourceTree = "<group>"; };
 		FF9967CA122D6D7D0001CA66 /* NumberTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NumberTest.m; sourceTree = "<group>"; };
@@ -326,7 +322,6 @@
 			isa = PBXGroup;
 			children = (
 				02B961F314C51327006A4F8E /* IBConstants.h */,
-				02B961F414C51327006A4F8E /* IBMacros.h */,
 				02B961F514C51327006A4F8E /* IBTypes.h */,
 			);
 			path = Macros;
@@ -489,21 +484,12 @@
 			name = Systems;
 			sourceTree = "<group>";
 		};
-		FF6902CC12197E1900EC7D37 /* Macros */ = {
-			isa = PBXGroup;
-			children = (
-				FF6902D112197E6700EC7D37 /* MacroTest.m */,
-			);
-			name = Macros;
-			sourceTree = "<group>";
-		};
 		FFF568AC1216E441007F800F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				FF4485C01225B13E0066E827 /* Core Data */,
 				FF44864F1225B8070066E827 /* Systems */,
 				FF254A00122152AD007E052F /* Categories */,
-				FF6902CC12197E1900EC7D37 /* Macros */,
 				02ED4CE11472F65500EA24A5 /* Functions */,
 				FF0AB7F112275BEB00EBFE75 /* Message Center */,
 			);
@@ -560,7 +546,6 @@
 				02B9622C14C51327006A4F8E /* UIView+InnerBand.h in Headers */,
 				02B9622E14C51327006A4F8E /* IBFunctions.h in Headers */,
 				02B9623014C51327006A4F8E /* IBConstants.h in Headers */,
-				02B9623114C51327006A4F8E /* IBMacros.h in Headers */,
 				02B9623214C51327006A4F8E /* IBTypes.h in Headers */,
 				02B9623314C51327006A4F8E /* IBViewUtil.h in Headers */,
 				02B9623514C51327006A4F8E /* IBCoreDataStore.h in Headers */,
@@ -697,7 +682,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFF569361216E4A3007F800F /* GHUnitIPhoneTestMain.m in Sources */,
-				FF6902D212197E6700EC7D37 /* MacroTest.m in Sources */,
 				FF6903711219899100EC7D37 /* StringTest.m in Sources */,
 				FF9EA5A8121AC6C4002F8A31 /* SortTest.m in Sources */,
 				FF254A0312215343007E052F /* ColorTest.m in Sources */,
