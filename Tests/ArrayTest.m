@@ -132,6 +132,16 @@
     GHAssertEqualObjects(doubledArray, mappedArray, nil);
 }
 
+- (void)testMapWithIndexByNumber {
+    NSArray *array = [NSMutableArray arrayWithObjects:IB_BOX_INT(1), IB_BOX_INT(2), IB_BOX_INT(3), IB_BOX_INT(4), IB_BOX_INT(5), nil];
+    NSArray *doubledArray = [NSMutableArray arrayWithObjects:IB_BOX_INT(2), IB_BOX_INT(4), IB_BOX_INT(6), IB_BOX_INT(8), IB_BOX_INT(10), nil];
+
+    // remove the evens
+    NSArray *mappedArray = [array mapWithIndex: (ib_enum_id_int_t)^(id obj, NSInteger idx) { return IB_BOX_INT((IB_UNBOX_INT(obj) * 2)); }];
+
+    GHAssertEqualObjects(doubledArray, mappedArray, nil);
+}
+
 - (void)testShuffle {
     NSMutableArray *array = [NSMutableArray arrayWithObjects:@"A", @"B", @"C", nil];
     

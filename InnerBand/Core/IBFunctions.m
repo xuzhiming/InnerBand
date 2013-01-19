@@ -40,11 +40,14 @@ NSString *IB_STRINGIFY_DOUBLE(double x) { return [NSString stringWithFormat:@"%f
 // BOUNDS
 
 CGRect IB_RECT_WITH_X(CGRect rect, float x) { return CGRectMake(x, rect.origin.y, rect.size.width, rect.size.height); }
+CGRect IB_RECT_OFFSET_X(CGRect rect, float deltaX) { return CGRectMake(rect.origin.x + deltaX, rect.origin.y, rect.size.width, rect.size.height); }
 CGRect IB_RECT_WITH_Y(CGRect rect, float y) { return CGRectMake(rect.origin.x, y, rect.size.width, rect.size.height); }
+CGRect IB_RECT_OFFSET_Y(CGRect rect, float deltaY) { return CGRectMake(rect.origin.x, rect.origin.y + deltaY, rect.size.width, rect.size.height); }
 CGRect IB_RECT_WITH_X_Y(CGRect rect, float x, float y) { return CGRectMake(x, y, rect.size.width, rect.size.height); }
 
 CGRect IB_RECT_WITH_WIDTH_HEIGHT(CGRect rect, float width, float height) { return CGRectMake(rect.origin.x, rect.origin.y, width, height); }
 CGRect IB_RECT_WITH_WIDTH(CGRect rect, float width) { return CGRectMake(rect.origin.x, rect.origin.y, width, rect.size.height); }
+CGRect IB_RECT_WITH_WIDTH_FROM_RIGHT(CGRect rect, float width) { return CGRectMake(rect.origin.x + rect.size.width - width, rect.origin.y, width, rect.size.height); }
 CGRect IB_RECT_WITH_HEIGHT(CGRect rect, float height) { return CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, height); }
 CGRect IB_RECT_WITH_HEIGHT_FROM_BOTTOM(CGRect rect, float height) { return CGRectMake(rect.origin.x, rect.origin.y + rect.size.height - height, rect.size.width, height); }
 
@@ -73,6 +76,7 @@ double IB_CONSTRAINED_DOUBLE_VALUE(double val, double min, double max) { return 
 
 BOOL IB_IS_EMPTY_STRING(NSString *str) { return !str || ![str isKindOfClass:NSString.class] || [str length] == 0; }
 BOOL IB_IS_POPULATED_STRING(NSString *str) { return str && [str isKindOfClass:NSString.class] && [str length] > 0; }
+NSString *IB_EMPTY_STRING_IF_NIL(NSString *str) { return (str) ? str : @""; }
 
 // COLORS
 

@@ -63,12 +63,21 @@
 	rect = IB_RECT_WITH_X_Y(IB_RECT_50_X_100_SIZED_200_BY_400, 10, 20);
 	GHAssertEquals(CGRectMake(10, 20, 200, 400), rect, nil);
 
+    rect = IB_RECT_OFFSET_X(IB_RECT_50_X_100_SIZED_200_BY_400, 1);
+	GHAssertEquals(CGRectMake(51, 100, 200, 400), rect, nil);
+
+    rect = IB_RECT_OFFSET_Y(IB_RECT_50_X_100_SIZED_200_BY_400, 1);
+	GHAssertEquals(CGRectMake(50, 101, 200, 400), rect, nil);
+
 	rect = IB_RECT_WITH_WIDTH_HEIGHT(IB_RECT_50_X_100_SIZED_200_BY_400, 60, 80);
 	GHAssertEquals(CGRectMake(50, 100, 60, 80), rect, nil);
     
 	rect = IB_RECT_WITH_WIDTH(IB_RECT_50_X_100_SIZED_200_BY_400, 120);
 	GHAssertEquals(CGRectMake(50, 100, 120, 400), rect, nil);
-    
+
+	rect = IB_RECT_WITH_WIDTH_FROM_RIGHT(IB_RECT_50_X_100_SIZED_200_BY_400, 50);
+	GHAssertEquals(CGRectMake(200, 100, 50, 400), rect, nil);
+
 	rect = IB_RECT_WITH_HEIGHT(IB_RECT_50_X_100_SIZED_200_BY_400, 150);
 	GHAssertEquals(CGRectMake(50, 100, 200, 150), rect, nil);
     

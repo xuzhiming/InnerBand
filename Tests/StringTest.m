@@ -45,6 +45,19 @@
     // Run after each test method
 }   
 
+- (void)testNilEmptyStrings {
+	NSString *str;
+
+	str = IB_EMPTY_STRING_IF_NIL(nil);
+	GHAssertEqualObjects(@"", str, nil);
+
+    str = IB_EMPTY_STRING_IF_NIL(@"");
+	GHAssertEqualObjects(@"", str, nil);
+
+	str = IB_EMPTY_STRING_IF_NIL(@"a");
+	GHAssertEqualObjects(@"a", str, nil);
+}
+
 - (void)testEmptyStrings {
 	BOOL isEmpty;
 	

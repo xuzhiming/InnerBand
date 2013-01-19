@@ -41,11 +41,14 @@ NSString *IB_STRINGIFY_DOUBLE(double x);
 // BOUNDS
 
 CGRect IB_RECT_WITH_X(CGRect rect, float x);
+CGRect IB_RECT_OFFSET_X(CGRect rect, float deltaX);
 CGRect IB_RECT_WITH_Y(CGRect rect, float y);
+CGRect IB_RECT_OFFSET_Y(CGRect rect, float deltaY);
 CGRect IB_RECT_WITH_X_Y(CGRect rect, float x, float y);
 
 CGRect IB_RECT_WITH_WIDTH_HEIGHT(CGRect rect, float width, float height);
 CGRect IB_RECT_WITH_WIDTH(CGRect rect, float width);
+CGRect IB_RECT_WITH_WIDTH_FROM_RIGHT(CGRect rect, float width);
 CGRect IB_RECT_WITH_HEIGHT(CGRect rect, float height);
 CGRect IB_RECT_WITH_HEIGHT_FROM_BOTTOM(CGRect rect, float height);
 
@@ -74,6 +77,7 @@ double IB_CONSTRAINED_DOUBLE_VALUE(double val, double min, double max);
 
 BOOL IB_IS_EMPTY_STRING(NSString *str);
 BOOL IB_IS_POPULATED_STRING(NSString *str);
+NSString *IB_EMPTY_STRING_IF_NIL(NSString *str);
 
 // COLORS
 
