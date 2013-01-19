@@ -39,7 +39,11 @@
 		self.opaque = NO;
 		self.textColor = [UIColor blackColor];
 		self.linkColor = [UIColor blueColor];
-		self.textAlignment = UITextAlignmentLeft;
+        #ifdef __IPHONE_6_0
+            self.textAlignment = NSTextAlignmentLeft;
+        #else
+            self.textAlignment = UITextAlignmentLeft;
+        #endif
     }
 
     return self;
@@ -51,9 +55,13 @@
 		self.opaque = NO;
 		self.textColor = [UIColor blackColor];
 		self.linkColor = [UIColor blueColor];
-		self.textAlignment = UITextAlignmentLeft;
+        #ifdef __IPHONE_6_0
+            self.textAlignment = NSTextAlignmentLeft;
+        #else
+            self.textAlignment = UITextAlignmentLeft;
+        #endif
     }
-    
+
     return self;
 }
 
@@ -90,12 +98,21 @@
 	NSString *htmlAlignmentValue = nil;
 	
 	switch (_textAlignment) {
-		case UITextAlignmentRight:
-			htmlAlignmentValue = @"right";
-			break;
-		case UITextAlignmentCenter:
-			htmlAlignmentValue = @"center";
-			break;
+        #ifdef __IPHONE_6_0
+            case NSTextAlignmentRight:
+                htmlAlignmentValue = @"right";
+                break;
+            case NSTextAlignmentCenter:
+                htmlAlignmentValue = @"center";
+                break;
+        #else
+            case UITextAlignmentRight:
+                htmlAlignmentValue = @"right";
+                break;
+            case UITextAlignmentCenter:
+                htmlAlignmentValue = @"center";
+                break;
+        #endif
 		default:
 			htmlAlignmentValue = @"left";
 			break;
