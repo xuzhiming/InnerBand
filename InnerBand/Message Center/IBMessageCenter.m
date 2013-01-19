@@ -291,8 +291,13 @@ static NSString *getSourceIdentifier(id obj) {
 	// add a new array if there isn't one
 	if (!targetActions) {
 		[messageNames setObject:(targetActions = [NSMutableArray array]) forKey:name];
-	}
-	
+    } else {
+        // clean up
+        [targetActions deleteIf:^NSInteger(id iTA) {
+            return (![iTA target]);
+        }];
+    }
+
 	return targetActions;
 }
 

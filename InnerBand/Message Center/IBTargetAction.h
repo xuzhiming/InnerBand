@@ -10,7 +10,12 @@
 
 @interface IBTargetAction : NSObject
 
-@property (nonatomic, assign) NSObject *target;
+#if __has_feature(objc_arc)
+    @property (nonatomic, weak) id target;
+#else
+    @property (nonatomic, assign) id target;
+#endif
+
 @property (nonatomic, copy) NSString *action;
 
 @end

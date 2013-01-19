@@ -41,7 +41,7 @@
 	// dispatch for all target/action pairs
 	for (NSInteger i = _targetActions.count - 1; i >= 0; --i) {
         IBTargetAction *targetAction = (IBTargetAction *)[_targetActions objectAtIndex:i];
-		NSObject *iTarget = targetAction.target;
+		id iTarget = targetAction.target;
 		SEL iAction = NSSelectorFromString(targetAction.action);
 		
 		// perform on main thread
