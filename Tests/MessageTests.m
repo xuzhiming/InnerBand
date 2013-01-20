@@ -59,8 +59,7 @@
 }
 
 - (void)tearDown {
-	[widget release];
-}   
+}
 
 - (void)testListener {
 	// add listener
@@ -97,16 +96,11 @@
 }
 
 - (void)testGlobalMessage {
-	// another widget
-	Widget *widget2 = [[Widget alloc] init];
-	
 	// add listener to this other widget
 	[IBMessageCenter addMessageListener:ALPHA_MSG source:nil target:self action:@selector(methodToFire)];
 	
 	// fire global message on original widget!
 	[widget fireGlobalAlpha];
-	
-	[widget2 release];
 }
 
 - (void)testListenerFiredMultipleTimes {
@@ -193,12 +187,12 @@
 	[IBMessageCenter addMessageListener:@"APPEND" source:widget target:self action:@selector(methodToVerifyStringAppender:)];
 	
 	// dispatch test of nil + ALPHA = ALPHA
-	alphaMessage = [[[StringAppenderMessage alloc] initWithName:@"APPEND" string:@"ALPHA" userInfo:[NSDictionary dictionaryWithObject:@"ALPHA" forKey:@"actual"]] autorelease];
+	alphaMessage = [[StringAppenderMessage alloc] initWithName:@"APPEND" string:@"ALPHA" userInfo:[NSDictionary dictionaryWithObject:@"ALPHA" forKey:@"actual"]];
 	[IBMessageCenter sendMessage:alphaMessage forSource:widget];	
 	
 	// dispatch test of nil + ALPHA + BETA = ALPHABETA
-	alphaMessage = [[[StringAppenderMessage alloc] initWithName:nil string:@"ALPHA" userInfo:nil] autorelease];
-	betaMessage = [[[StringAppenderMessage alloc] initWithName:nil string:@"BETA" userInfo:nil] autorelease];
+	alphaMessage = [[StringAppenderMessage alloc] initWithName:nil string:@"ALPHA" userInfo:nil];
+	betaMessage = [[StringAppenderMessage alloc] initWithName:nil string:@"BETA" userInfo:nil];
 	seqMessage = [IBSequencedMessage messageWithName:@"APPEND" userInfo:[NSDictionary dictionaryWithObject:@"ALPHABETA" forKey:@"actual"] sequence:[NSArray arrayWithObjects:alphaMessage, betaMessage, nil]];
 	
 	[IBMessageCenter sendMessage:seqMessage forSource:widget];	

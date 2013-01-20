@@ -23,10 +23,6 @@
 
 @implementation Widget
 
-- (void)dealloc {
-	[super dealloc];
-}
-
 - (void)fireAlpha {
 	// dispatch
 	[IBMessageCenter sendMessageNamed:ALPHA_MSG forSource:self];

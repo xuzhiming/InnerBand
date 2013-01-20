@@ -90,7 +90,7 @@
 		FFCC37C81216D25100AAF3BF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 		FFCC37CA1216D25100AAF3BF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCC37C91216D25100AAF3BF /* UIKit.framework */; };
 		FFCC37DF1216D4E000AAF3BF /* libInnerBand.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC07E0554694100DB518D /* libInnerBand.a */; };
-		FFF569361216E4A3007F800F /* GHUnitIPhoneTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF569321216E4A3007F800F /* GHUnitIPhoneTestMain.m */; };
+		FFF569361216E4A3007F800F /* GHUnitIPhoneTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = FFF569321216E4A3007F800F /* GHUnitIPhoneTestMain.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

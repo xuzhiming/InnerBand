@@ -32,12 +32,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[_stringToAppend release];
-	[_convertedString release];
-	[super dealloc];
-}
-
 #pragma mark -
 
 - (void)inputData:(NSData *)input {
