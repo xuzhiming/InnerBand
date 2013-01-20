@@ -15,10 +15,10 @@ Pod::Spec.new do |s|
                         limitations under the License.'}
   s.summary        = 'A set of classes, macros, components and constants that speed up development.'
   s.homepage       = 'https://github.com/ZaBlanc/InnerBand'
-  s.authors        = {'John Blanco' => 'john.blanco@raptureinvenice.com'}
+  s.authors        = {'John Blanco' => 'john@raptureinvenice.com'}
   s.source         = { :git => 'https://github.com/ZaBlanc/InnerBand.git', :tag => '1.0.1' }
   s.source_files   = 'InnerBand/**/*.{h,m}'
-  s.platform       = :ios
+  s.platform       = :ios, '5.0'
   s.framework      = 'QuartzCore', 'CoreData', 'CoreText', 'CoreGraphics', 'UIKit'
   s.requires_arc   = true
 end
