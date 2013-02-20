@@ -52,7 +52,7 @@
 }
 
 - (NSDate *)dateByAddingWeeks:(NSInteger)numWeeks {
-    return [self dateByAddingDays:DAYS_IN_WEEK * 2];
+    return [self dateByAddingDays:DAYS_IN_WEEK * numWeeks];
 }
 
 - (NSDate *)dateByAddingMonths:(NSInteger)numMonths {
