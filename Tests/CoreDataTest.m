@@ -19,11 +19,8 @@
 
 
 #import "GHUnit.h"
-#import "IBFunctions.h"
-#import "NSMutableArray+InnerBand.h"
-#import "IBCoreDataStore.h"
+#import "InnerBand.h"
 #import "CoreDataWidget.h"
-#import "NSManagedObject+InnerBand.h"
 
 @interface CoreDataTest : GHTestCase
 

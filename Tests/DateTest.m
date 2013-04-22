@@ -18,8 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "NSDate+InnerBand.h"
-#import "IBConstants.h"
+#import "InnerBand.h"
 
 @interface DateTest : GHTestCase
 

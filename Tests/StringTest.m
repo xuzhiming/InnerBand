@@ -18,10 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "IBFunctions.h"
-#import "NSString+InnerBand.h"
-#import "NSMutableString+InnerBand.h"
-#import "NSString+Encoding.h"
+#import "InnerBand.h"
 
 @interface StringTest : GHTestCase
 @end

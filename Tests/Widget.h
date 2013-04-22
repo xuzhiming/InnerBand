@@ -18,6 +18,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InnerBand.h"
 
 #define ALPHA_MSG @"messageAlpha"
 #define BETA_MSG @"messageBeta"

@@ -18,7 +18,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IBDispatchMessage.h"
+#import "InnerBand.h"
 
 @interface StringAppenderMessage : IBDispatchMessage {
 	NSString *_stringToAppend;

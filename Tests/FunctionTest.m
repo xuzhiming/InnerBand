@@ -18,7 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "IBFunctions.h"
+#import "InnerBand.h"
 
 @interface FunctionTest : GHTestCase
 @end

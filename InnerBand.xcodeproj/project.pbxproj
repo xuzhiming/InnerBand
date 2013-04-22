@@ -66,6 +66,7 @@
 		02B9624214C51327006A4F8E /* IBMessageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B9620914C51327006A4F8E /* IBMessageCenter.m */; };
 		02B9624314C51327006A4F8E /* IBMessageProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 02B9620A14C51327006A4F8E /* IBMessageProcessor.h */; };
 		02B9624414C51327006A4F8E /* IBMessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 02B9620B14C51327006A4F8E /* IBMessageProcessor.m */; };
+		02D7BD9116C1F4C700F53DBC /* InnerBand.h in Headers */ = {isa = PBXBuildFile; fileRef = 02D7BD9016C1F4C700F53DBC /* InnerBand.h */; };
 		02ED4CE41472F67200EA24A5 /* FunctionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 02ED4CE31472F67200EA24A5 /* FunctionTest.m */; };
 		02F94E7A166ADD26009479B1 /* IBActionSheet.h in Headers */ = {isa = PBXBuildFile; fileRef = 02F94E78166ADD26009479B1 /* IBActionSheet.h */; };
 		02F94E7B166ADD26009479B1 /* IBActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 02F94E79166ADD26009479B1 /* IBActionSheet.m */; };
@@ -163,6 +164,7 @@
 		02B9620914C51327006A4F8E /* IBMessageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBMessageCenter.m; sourceTree = "<group>"; };
 		02B9620A14C51327006A4F8E /* IBMessageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBMessageProcessor.h; sourceTree = "<group>"; };
 		02B9620B14C51327006A4F8E /* IBMessageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBMessageProcessor.m; sourceTree = "<group>"; };
+		02D7BD9016C1F4C700F53DBC /* InnerBand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InnerBand.h; sourceTree = "<group>"; };
 		02ED4CE31472F67200EA24A5 /* FunctionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionTest.m; sourceTree = "<group>"; };
 		02F94E78166ADD26009479B1 /* IBActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBActionSheet.h; sourceTree = "<group>"; };
 		02F94E79166ADD26009479B1 /* IBActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IBActionSheet.m; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 		02B961CA14C51327006A4F8E /* InnerBand */ = {
 			isa = PBXGroup;
 			children = (
+				02D7BD9016C1F4C700F53DBC /* InnerBand.h */,
 				02B961CB14C51327006A4F8E /* Controls */,
 				02B961D614C51327006A4F8E /* Core */,
 				02B961F914C51327006A4F8E /* Core Data */,
@@ -279,7 +282,7 @@
 				02B961F014C51327006A4F8E /* IBFunctions.h */,
 				02B961F114C51327006A4F8E /* IBFunctions.m */,
 				02B961D714C51327006A4F8E /* Categories */,
-				02B961F214C51327006A4F8E /* Macros */,
+				02B961F214C51327006A4F8E /* Shortcuts */,
 				02B961F614C51327006A4F8E /* Utils */,
 			);
 			path = Core;
@@ -318,12 +321,13 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
-		02B961F214C51327006A4F8E /* Macros */ = {
+		02B961F214C51327006A4F8E /* Shortcuts */ = {
 			isa = PBXGroup;
 			children = (
 				02B961F314C51327006A4F8E /* IBConstants.h */,
 				02B961F514C51327006A4F8E /* IBTypes.h */,
 			);
+			name = Shortcuts;
 			path = Macros;
 			sourceTree = "<group>";
 		};
@@ -559,6 +563,7 @@
 				02663B45151BA7DC008BFE71 /* NSString+Encoding.h in Headers */,
 				0221741C151D0B0100EBF9F6 /* IBTargetAction.h in Headers */,
 				02F94E7A166ADD26009479B1 /* IBActionSheet.h in Headers */,
+				02D7BD9116C1F4C700F53DBC /* InnerBand.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

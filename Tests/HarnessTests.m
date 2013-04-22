@@ -18,8 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "IBMessageCenter.h"
-#import "HTTPGetRequestMessage.h"
+#import "InnerBand.h"
 #import "Widget.h"
 
 #define GOOGLE @"GOOGLE"

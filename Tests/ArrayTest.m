@@ -18,9 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "IBFunctions.h"
-#import "NSArray+InnerBand.h"
-#import "NSMutableArray+InnerBand.h"
+#import "InnerBand.h"
 
 @interface ArrayTest : GHTestCase
 @end

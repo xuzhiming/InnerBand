@@ -18,12 +18,9 @@
 //
 
 #import "GHUnit.h"
+#import "InnerBand.h"
 #import "Widget.h"
-#import "IBMessageCenter.h"
-#import "IBDispatchMessage.h"
 #import "StringAppenderMessage.h"
-#import "IBSequencedMessage.h"
-#import "IBFunctions.h"
 
 #define GOOGLE @"GOOGLE"
 
