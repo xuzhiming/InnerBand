@@ -87,6 +87,7 @@ NSInteger IB_COL_TO_RGB256(float col);
 // DIRECTORIES
 
 NSString *IB_DOCUMENTS_DIR(void);
+NSString *IB_CACHES_DIR(void);
 
 // HARDWARE/DEVICE CAPABILITY
 

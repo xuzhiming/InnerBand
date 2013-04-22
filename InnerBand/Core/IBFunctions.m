@@ -86,6 +86,7 @@ NSInteger IB_COL_TO_RGB256(float col) { return (NSInteger)(col * 255.0); }
 // DIRECTORIES
 
 NSString *IB_DOCUMENTS_DIR(void) { return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]; }
+NSString *IB_CACHES_DIR(void) { return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]; }
 
 // HARDWARE/DEVICE CAPABILITY
 
