@@ -21,6 +21,12 @@
 
 @implementation UIView (InnerBand)
 
+- (void)sizeToFitWithinSize:(CGSize)size {
+    CGRect frame = self.frame;
+    frame.size = [self sizeThatFits:size];
+    self.frame = frame;
+}
+
 - (CGFloat)left {
 	return self.frame.origin.x;
 }

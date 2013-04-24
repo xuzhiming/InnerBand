@@ -21,6 +21,8 @@
 
 @interface UIView (InnerBand)
 
+- (void)sizeToFitWithinSize:(CGSize)size;
+
 - (CGFloat)left;
 - (void)setLeft:(CGFloat)x;
 - (CGFloat)top;
