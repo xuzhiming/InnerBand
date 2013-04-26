@@ -29,6 +29,7 @@
 + (IBCoreDataStore *)mainStore;
 + (IBCoreDataStore *)createStore;
 + (IBCoreDataStore *)createStoreWithContext:(NSManagedObjectContext *)context;
++ (void)setStorePathname:(NSString *)path;
 
 - (id)initWithContext:(NSManagedObjectContext *)context;
 
