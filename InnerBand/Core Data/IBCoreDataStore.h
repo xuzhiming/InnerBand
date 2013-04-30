@@ -21,7 +21,7 @@
 #import <CoreData/CoreData.h>
 
 @interface IBCoreDataStore : NSObject {
-	NSManagedObjectContext *_managedObjectContext;	
+	NSManagedObjectContext *_managedObjectContext;
 }
 
 @property (nonatomic, readonly) NSManagedObjectContext *context;
@@ -29,7 +29,9 @@
 + (IBCoreDataStore *)mainStore;
 + (IBCoreDataStore *)createStore;
 + (IBCoreDataStore *)createStoreWithContext:(NSManagedObjectContext *)context;
+
 + (void)setStorePathname:(NSString *)path;
++ (void)setModelPathname:(NSString *)path;
 
 - (id)initWithContext:(NSManagedObjectContext *)context;
 

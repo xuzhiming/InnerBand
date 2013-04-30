@@ -24,6 +24,7 @@
 __strong static NSManagedObjectModel *gManagedObjectModel = nil;
 __strong static NSPersistentStoreCoordinator *gPersistentStoreCoordinator = nil;
 __strong static NSString *gStorePathname = nil;
+__strong static NSString *gModelPathname = nil;
 
 // main thread singleton
 static IBCoreDataStore *gMainStoreInstance;
@@ -60,6 +61,10 @@ static IBCoreDataStore *gMainStoreInstance;
     gStorePathname = [path copy];
 }
 
++ (void)setModelPathname:(NSString *)path {
+    gModelPathname = [path copy];
+}
+
 + (void)configureCoreData {
     // just once
     if (gManagedObjectModel) {
@@ -69,7 +74,14 @@ static IBCoreDataStore *gMainStoreInstance;
 	NSError *error = nil;
 
 	// create the global managed object model
-    gManagedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    if (gModelPathname) {
+        // specific
+        NSURL *modelURL = [NSURL fileURLWithPath:gModelPathname];
+        gManagedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    } else {
+        // automatic
+        gManagedObjectModel = [NSManagedObjectModel modelByMergingModels:nil];
+    }
 
 	// create the global persistent store
     gPersistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:gManagedObjectModel];
