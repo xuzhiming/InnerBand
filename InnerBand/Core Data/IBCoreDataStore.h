@@ -36,7 +36,7 @@
 - (id)initWithContext:(NSManagedObjectContext *)context;
 
 /* Clears all data from peristent store and re-initializes (great for unit testing!) */
-- (void)clearAllData;
++ (void)clearAllData;
 
 /* Saves context. */
 - (void)save;

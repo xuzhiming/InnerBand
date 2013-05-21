@@ -43,10 +43,8 @@
 }
 
 - (void)setUp {
-	IBCoreDataStore *store = [IBCoreDataStore mainStore];
-	
     // Run before each test method
-	[store clearAllData];
+	[IBCoreDataStore clearAllData];
 }
 
 - (void)tearDown {
@@ -210,4 +208,5 @@
 	
 	return widget;
 }
+
 @end

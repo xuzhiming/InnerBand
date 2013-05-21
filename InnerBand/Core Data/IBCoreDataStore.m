@@ -80,7 +80,7 @@ static IBCoreDataStore *gMainStoreInstance;
         gManagedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     } else {
         // automatic
-        gManagedObjectModel = [NSManagedObjectModel modelByMergingModels:nil];
+        gManagedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     }
 
 	// create the global persistent store
@@ -129,28 +129,28 @@ static IBCoreDataStore *gMainStoreInstance;
 	return _managedObjectContext;
 }
 
-- (void)clearAllData {
++ (void)clearAllData {
 	NSError *error = nil;
 
 	// clear existing stack
     gManagedObjectModel = nil;
     gPersistentStoreCoordinator = nil;
-    _managedObjectContext = nil;
+
+    @synchronized (self) {
+        gMainStoreInstance = nil;
+    }
 
 	// remove persistence file
-	NSString *storeLocation = [IB_DOCUMENTS_DIR() stringByAppendingPathComponent:@"CoreDataStore.sqlite"];
-	NSURL *storeURL = [NSURL fileURLWithPath:storeLocation];
+    if (gStorePathname) {
+        NSURL *storeURL = [NSURL fileURLWithPath:gStorePathname];
 
-	// remove
-	@try {
-		[[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
-	} @catch (NSException *exception) {
-		// ignore, totally normal
-	}
-
-	// init again
-	[IBCoreDataStore initialize];
-	[self createManagedObjectContext];
+        // remove
+        @try {
+            [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
+        } @catch (NSException *exception) {
+            // ignore, totally normal
+        }
+    }
 }
 
 /**
