@@ -153,14 +153,14 @@
 - (void)testUTCFormatting {
 	NSDate *epoch = [NSDate dateWithTimeIntervalSince1970:0];
 	
-	GHAssertEqualStrings(@"January 1, 1970, 12:00:00 AM GMT", [epoch formattedUTCDateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterLongStyle], nil);
-	GHAssertEqualStrings(@"Jan 1, 1970, 12:00:00 AM", [epoch formattedUTCDateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle], nil);
-	GHAssertEqualStrings(@"1/1/70, 12:00 AM", [epoch formattedUTCDateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], nil);
+	GHAssertEqualStrings(@"1 January, 1970 12:00:00 AM GMT", [epoch formattedUTCDateStyle:NSDateFormatterLongStyle timeStyle:NSDateFormatterLongStyle], nil);
+	GHAssertEqualStrings(@"1970-01-01 12:00:00 AM", [epoch formattedUTCDateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterMediumStyle], nil);
+	GHAssertEqualStrings(@"1970-01-01 12:00 AM", [epoch formattedUTCDateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], nil);
 	GHAssertEqualStrings(@"", [epoch formattedUTCDateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterNoStyle], nil);
 	
-	GHAssertEqualStrings(@"January 1, 1970", [epoch formattedUTCDateStyle:NSDateFormatterLongStyle], nil);
-	GHAssertEqualStrings(@"Jan 1, 1970", [epoch formattedUTCDateStyle:NSDateFormatterMediumStyle], nil);
-	GHAssertEqualStrings(@"1/1/70", [epoch formattedUTCDateStyle:NSDateFormatterShortStyle], nil);
+	GHAssertEqualStrings(@"1 January, 1970", [epoch formattedUTCDateStyle:NSDateFormatterLongStyle], nil);
+	GHAssertEqualStrings(@"1970-01-01", [epoch formattedUTCDateStyle:NSDateFormatterMediumStyle], nil);
+	GHAssertEqualStrings(@"1970-01-01", [epoch formattedUTCDateStyle:NSDateFormatterShortStyle], nil);
 	GHAssertEqualStrings(@"", [epoch formattedUTCDateStyle:NSDateFormatterNoStyle], nil);
 	
 	GHAssertEqualStrings(@"12:00:00 AM GMT", [epoch formattedUTCTimeStyle:NSDateFormatterLongStyle], nil);
