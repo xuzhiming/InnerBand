@@ -148,4 +148,15 @@
     GHAssertEqualObjects(@"&lt;&lt;", [@"<<" stringWithXMLSanitizingAndEscaping], nil);
 }
 
+- (void)testMatching {
+	GHAssertTrue([@"a" matchesRegex:@"a"], nil);
+	GHAssertTrue([@"abc" matchesRegex:@"a.*"], nil);
+	GHAssertFalse([@"abc" matchesRegex:@"[a-z]{2}"], nil);
+	GHAssertTrue([@"abc" matchesRegex:@"[a-z]{3}"], nil);
+	GHAssertTrue([@"*" matchesRegex:@"\\*"], nil);
+	GHAssertTrue([@"1" matchesRegex:@"\\d"], nil);
+	GHAssertFalse([@"123" matchesRegex:@"\\d{2}"], nil);
+	GHAssertTrue([@"123" matchesRegex:@"\\d{3}"], nil);
+}
+
 @end

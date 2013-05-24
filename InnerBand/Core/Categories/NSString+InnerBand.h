@@ -34,4 +34,7 @@
 
 - (NSString *)trimmedString;
 
+// NOTE: the regex cannot be partial, it has to match the ENTIRE string.  So, "a" doesn't match "aaa", but "a*" or "a+" will.
+- (BOOL)matchesRegex:(NSString *)regex;
+
 @end
