@@ -119,7 +119,8 @@ BOOL IB_IS_GPS_ENABLED_ON_DEVICE(void) {
     BOOL isLocationServicesEnabled;
     
     Class locationClass = NSClassFromString(@"CLLocationManager");
-    NSMethodSignature *signature = [locationClass instanceMethodSignatureForSelector:@selector(locationServicesEnabled)];
+    SEL locationServicesEnabledSel = NSSelectorFromString(@"locationServicesEnabled");
+    NSMethodSignature *signature = [locationClass instanceMethodSignatureForSelector:locationServicesEnabledSel];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
     
     [invocation invoke];
