@@ -44,17 +44,18 @@ static IBCoreDataStore *gMainStoreInstance;
 		if (!gMainStoreInstance) {
 			gMainStoreInstance = [[IBCoreDataStore alloc] init];
 		}
+        
+        return gMainStoreInstance;
 	}
 
-	return gMainStoreInstance;
 }
 
 + (IBCoreDataStore *)createStore {
 	@synchronized (self) {
         [self configureCoreData];
+        return [[IBCoreDataStore alloc] init];
     }
 
-    return [[IBCoreDataStore alloc] init];
 }
 
 + (void)setStorePathname:(NSString *)path {
@@ -158,136 +159,169 @@ static IBCoreDataStore *gMainStoreInstance;
  */
 - (void)save {
 	NSError *error = nil;
-
-	if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
-		NSArray* detailedErrors = [[error userInfo] objectForKey:NSDetailedErrorsKey];
-
-		if(detailedErrors != nil && [detailedErrors count] > 0) {
-			for(NSError* detailedError in detailedErrors) {
-				NSLog(@"  DetailedError: %@", [detailedError userInfo]);
-			}
-		}
-		else {
-			NSLog(@"  %@", [error userInfo]);
-		}
-	}
+    @synchronized (self) {
+        if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
+            NSLog(@"store save fail!!");
+            NSArray* detailedErrors = [[error userInfo] objectForKey:NSDetailedErrorsKey];
+            
+            if(detailedErrors != nil && [detailedErrors count] > 0) {
+                for(NSError* detailedError in detailedErrors) {
+                    NSLog(@"  DetailedError: %@", [detailedError userInfo]);
+                }
+            }
+            else {
+                NSLog(@"  %@", [error userInfo]);
+            }
+        }
+    }
+	
 }
 
 #pragma mark - Deprecated Accessors (Use NSManagedObject+InnerBand)
 
 - (NSArray *)allForEntity:(NSString *)entityName error:(NSError **)error {
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    @synchronized (self) {
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
 
-	// execute
-	NSArray *ret = [_managedObjectContext executeFetchRequest:request error:error];
+        // execute
+        NSArray *ret = [_managedObjectContext executeFetchRequest:request error:error];
 
-	return ret;
+        return ret;
+    }
 }
 
 - (NSArray *)allForEntity:(NSString *)entityName predicate:(NSPredicate *)predicate error:(NSError **)error {
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    @synchronized (self) {
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
 
-	// predicate
-	[request setPredicate:predicate];
+        // predicate
+        [request setPredicate:predicate];
 
-	// execute
-	return [_managedObjectContext executeFetchRequest:request error:error];
+        // execute
+        return [_managedObjectContext executeFetchRequest:request error:error];
+    }
 }
 
 - (NSArray *)allForEntity:(NSString *)entityName predicate:(NSPredicate *)predicate orderBy:(NSString *)key ascending:(BOOL)ascending error:(NSError **)error {
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:key ascending:ascending];
+	@synchronized (self) {
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:key ascending:ascending];
 
-	// predicate
-	[request setPredicate:predicate];
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+        // predicate
+        [request setPredicate:predicate];
+        [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 
-	// execute
-	return [_managedObjectContext executeFetchRequest:request error:error];
+        // execute
+        return [_managedObjectContext executeFetchRequest:request error:error];
+    }
 }
 
 - (NSArray *)allForEntity:(NSString *)entityName orderBy:(NSString *)key ascending:(BOOL)ascending error:(NSError **)error {
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:key ascending:ascending];
-
-	// predicate
-	[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-
-	// execute
-	return [_managedObjectContext executeFetchRequest:request error:error];
+    @synchronized (self) {
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:key ascending:ascending];
+        
+        // predicate
+        [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+        
+        // execute
+        return [_managedObjectContext executeFetchRequest:request error:error];
+    }
 }
 
 - (NSManagedObject *)entityByName:(NSString *)entityName error:(NSError **)error {
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-
-	// execute
-	NSArray *values = [_managedObjectContext executeFetchRequest:request error:error];
-
-	if (values.count > 0) {
-		// this method is designed for accessing a single object, but if there's more just give the first
-		return (NSManagedObject *)[values objectAtIndex:0];
-	}
-
-	return nil;
+	@synchronized (self) {
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+        
+        // execute
+        NSArray *values = [_managedObjectContext executeFetchRequest:request error:error];
+        
+        if (values.count > 0) {
+            // this method is designed for accessing a single object, but if there's more just give the first
+            return (NSManagedObject *)[values objectAtIndex:0];
+        }
+        
+        return nil;
+    }
 }
 
 - (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(id)value error:(NSError **)error {
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", key, value];
-	NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-
-	// predicate
-	[request setPredicate:predicate];
-
-	// execute
-	NSArray *values = [_managedObjectContext executeFetchRequest:request error:error];
-
-	if (values.count > 0) {
-		// this method is designed for accessing a single object, but if there's more just give the first
-		return (NSManagedObject *)[values objectAtIndex:0];
-	}
-
+    @synchronized (self) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", key, value];
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+        
+        // predicate
+        [request setPredicate:predicate];
+        
+        // execute
+        NSArray *values = [_managedObjectContext executeFetchRequest:request error:error];
+        
+        if (values.count > 0) {
+            // this method is designed for accessing a single object, but if there's more just give the first
+            return (NSManagedObject *)[values objectAtIndex:0];
+        }
+    }
 	return nil;
 }
 
-- (NSManagedObject *)entityByURI:(NSURL *)uri {
-	NSManagedObjectID *oid = [gPersistentStoreCoordinator managedObjectIDForURIRepresentation:uri];
+- (NSArray *)getEntityWith:(NSFetchRequest *)request err:(NSError **)error{
+    @synchronized (self) {
+        NSArray *values = [_managedObjectContext executeFetchRequest:request error:error];
+        return values;
+    }
+}
 
-    return [self entityByObjectID:oid];
+- (NSManagedObject *)entityByURI:(NSURL *)uri {
+    @synchronized (self) {
+        NSManagedObjectID *oid = [gPersistentStoreCoordinator managedObjectIDForURIRepresentation:uri];
+
+        return [self entityByObjectID:oid];
+    }
 }
 
 - (NSManagedObject *)entityByObjectID:(NSManagedObjectID *)oid {
-	if (oid) {
-		return [_managedObjectContext objectWithID:oid];
-	}
-
+    @synchronized (self) {
+        if (oid) {
+            return [_managedObjectContext objectWithID:oid];
+        }
+    }
 	return nil;
 }
 
 - (NSManagedObject *)createNewEntityByName:(NSString *)entityName {
-	return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:_managedObjectContext];
+    @synchronized (self) {
+        return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:_managedObjectContext];
+    }
 }
 
 - (void)removeEntity:(NSManagedObject *)entity {
-	@try {
-		[_managedObjectContext deleteObject:entity];
-	} @catch(id exception) {}
+    @synchronized (self) {
+        
+        @try {
+            [_managedObjectContext deleteObject:entity];
+        } @catch(id exception) {}
+    }
 }
 
 /* Remove all objects of an entity. */
 - (void)removeAllEntitiesByName:(NSString *)entityName {
 	NSError *error = nil;
-
-	// get all objects for entity
-	// TODO: we can fetch these in a more minimalistic way, would be faster, so do it if we have time
-	NSArray *objects = [self allForEntity:entityName error:&error];
-
-	for (NSManagedObject *iObject in objects) {
-		[_managedObjectContext deleteObject:iObject];
-	}
+    @synchronized (self) {
+        // get all objects for entity
+        // TODO: we can fetch these in a more minimalistic way, would be faster, so do it if we have time
+        NSArray *objects = [self allForEntity:entityName error:&error];
+        
+        for (NSManagedObject *iObject in objects) {
+            [_managedObjectContext deleteObject:iObject];
+        }
+        
+    }
 }
 
 - (NSEntityDescription *)entityDescriptionForEntity:(NSString *)entityName {
-	return [NSEntityDescription entityForName:entityName inManagedObjectContext:_managedObjectContext];
+    @synchronized (self) {
+        return [NSEntityDescription entityForName:entityName inManagedObjectContext:_managedObjectContext];
+    }
 }
 
 #pragma mark -

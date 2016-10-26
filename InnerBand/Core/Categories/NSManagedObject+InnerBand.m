@@ -15,7 +15,9 @@
 @implementation NSManagedObject (InnerBand)
 
 + (id)create {
-    return [self createInStore:[IBCoreDataStore mainStore]];
+    @synchronized (self) {
+        return [self createInStore:[IBCoreDataStore mainStore]];
+    }
 }
 
 + (id)createInStore:(IBCoreDataStore *)store {

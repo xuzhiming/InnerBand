@@ -73,6 +73,11 @@
 /* Returns a single entity with the specified key/value. */
 - (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(id)value error:(NSError **)error;
 
+/**
+ * common entity fetch;
+ */
+- (NSArray *)getEntityWith:(NSFetchRequest *)request err:(NSError **)error;
+
 // TODO: Change key to attribute and make Class versions
 
 
