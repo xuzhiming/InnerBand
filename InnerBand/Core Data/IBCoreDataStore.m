@@ -154,11 +154,22 @@ static IBCoreDataStore *gMainStoreInstance;
     }
 }
 
+#define ib_dispatch_main_sync_safe(block)\
+if ([NSThread isMainThread])\
+{\
+block();\
+}\
+else\
+{\
+dispatch_sync(dispatch_get_main_queue(), block);\
+}
+
 /**
  Save the context.
  */
 - (void)save {
-	NSError *error = nil;
+    
+    NSError *error = nil;
     @synchronized (self) {
         if ([_managedObjectContext hasChanges] && ![_managedObjectContext save:&error]) {
             NSLog(@"store save fail!!");
@@ -166,15 +177,15 @@ static IBCoreDataStore *gMainStoreInstance;
             
             if(detailedErrors != nil && [detailedErrors count] > 0) {
                 for(NSError* detailedError in detailedErrors) {
-                    NSLog(@"  DetailedError: %@", [detailedError userInfo]);
+                    NSLog(@"!!!!!  DetailedError: %@", [detailedError userInfo]);
                 }
             }
             else {
-                NSLog(@"  %@", [error userInfo]);
+                NSLog(@"!!!!!  %@", [error userInfo]);
             }
         }
     }
-	
+    
 }
 
 #pragma mark - Deprecated Accessors (Use NSManagedObject+InnerBand)

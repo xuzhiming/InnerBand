@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "InnerBand"
-  s.version      = "1.0.6"
+  s.version      = "1.0.7"
   s.summary      = "iBoost is now InnerBand!"
 
   # This description is used to generate tags and improve search results.
@@ -78,7 +78,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/xuzhiming/InnerBand.git", :tag => "1.0.6" }
+  s.source       = { :git => "https://github.com/xuzhiming/InnerBand.git", :tag => "1.0.7" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
